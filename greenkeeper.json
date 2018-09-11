@@ -1,0 +1,13 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "serverless/clearmail-api/package.json",
+        "serverless/clearmail-email/package.json",
+        "serverless/clearmail-messages/package.json",
+        "serverless/clearmail-session/package.json"
+      ]
+    }
+  }
+}
