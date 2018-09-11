@@ -1,0 +1,38 @@
+service: clearmail-session
+
+custom:
+  deploymentBucket: 'global-deployment-bucket'
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: us-east-1
+  deploymentBucket:
+    name: ${self:custom.deploymentBucket}
+  environment:
+    CLIENT_SESSION_ID: ${ssm:/printawesome-api/CLIENT_SESSION_ID}
+    CLIENT_SESSION_SECRET: ${ssm:/printawesome-api/CLIENT_SESSION_SECRET~true}
+    CLIENT_AUTH_ID: ${ssm:/printawesome-api/CLIENT_AUTH_ID}
+    DYNAMODB_TABLE: 'clearmail-api-prod'
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "*"
+
+functions:
+  handle: 
+    handler: handler.handler
+    events: 
+      - http:
+          path: token
+          method: post
+          integration: lambda-proxy
+          cors: true
+
+resources:
+  Resources:
+    HandleLogGroup:
+      Properties:
+        RetentionInDays: 7

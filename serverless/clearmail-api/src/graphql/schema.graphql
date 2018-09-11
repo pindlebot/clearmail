@@ -1,0 +1,88 @@
+
+enum Role {
+  USER
+  SESSION
+}
+
+scalar JSON
+
+scalar Any
+
+directive @auth on OBJECT 
+
+directive @default(value: Any) on FIELD_DEFINITION
+
+interface Node {
+  id: ID!
+}
+
+input UpdateUserInput {
+  id: ID!
+  emailAddress: String
+  subscribed: Boolean
+}
+
+input SendMessageInput {
+  toAddresses: [String]
+  fromAddress: String
+  subject: String
+  html: String
+  text: String
+}
+
+type Mutation {
+  deleteMessage(id: ID!): Message
+  sendMessage (
+    input: SendMessageInput!
+  ): JSON
+  signinUser(
+    emailAddress: String!
+    password: String!
+  ): User
+  createUser(
+    emailAddress: String!
+    password: String!
+  ): User
+  emailInUse(emailAddress: String!): Boolean
+  resetPassword(emailAddress: String!): Boolean
+  updatePassword(password: String!): User
+  deleteUser(id: ID!): User
+  updateUser(input: UpdateUserInput!): User
+}
+
+type Query {
+  users: [User]
+  user: User
+  message(id: ID!): Message
+  messages: [Message]
+}
+
+type User @auth {
+  id: ID!
+  createdAt: String!
+  updatedAt: String!
+  token: String
+  sub: String
+  emailAddress: String
+  password: String
+  subscribed: Boolean @default(value: true)
+  role: Role @default(value: "SESSION")
+}
+
+type Message implements Node {
+  id: ID!
+  date: String
+  # attachments: []
+  from: JSON
+  headers: JSON
+  html: String
+  mail: JSON
+  messageId: String
+  notificationType: String
+  receipt: JSON
+  replyTo: JSON
+  subject: String
+  text: String
+  textAsHtml: String
+  to: JSON
+}

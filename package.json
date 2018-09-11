@@ -1,0 +1,55 @@
+{
+  "name": "clearmail",
+  "version": "0.0.1",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "dev": "parcel app/src/index.html",
+    "build": "NODE_ENV=production UP_STAGE='' parcel build app/src/index.html --public-url /",
+    "lint": "standard \"app/src/**/*.js\" --fix | snazzy",
+    "clean": "rimraf dist && rimraf .cache",
+    "test": "echo \"ok\""
+  },
+  "dependencies": {
+    "@material-ui/core": "^1.4.2",
+    "@material-ui/icons": "^2.0.0",
+    "@material-ui/lab": "^1.0.0-alpha.8",
+    "apollo-boost": "^0.1.10",
+    "apollo-link-context": "^1.0.8",
+    "apollo-link-ws": "^1.0.8",
+    "connected-react-router": "^4.4.1",
+    "date-fns": "^1.29.0",
+    "draft-js": "^0.10.5",
+    "gql": "^1.1.2",
+    "graphql": "^0.13.2",
+    "history": "^4.7.2",
+    "immutable": "^3.8.2",
+    "isomorphic-fetch": "^2.2.1",
+    "jsonwebtoken": "^8.3.0",
+    "prop-types": "^15.6.2",
+    "query-string": "^6.1.0",
+    "react": "^15.5.4 || ^16.0.0",
+    "react-apollo": "^2.1.9",
+    "react-dom": "^16.4.1",
+    "react-dropzone": "latest",
+    "react-redux": "^4.4.8 || ^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "redux": "^3.6.0 || ^4.0.0",
+    "subscriptions-transport-ws": "^0.9.0",
+    "with-async-component": "^0.0.8"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-parcel": "^0.0.11",
+    "eslint": "^5.2.0",
+    "node-sass": "^4.9.2",
+    "parcel-bundler": "^1.9.7",
+    "rimraf": "^2.6.2",
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}

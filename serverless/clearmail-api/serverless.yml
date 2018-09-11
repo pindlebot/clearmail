@@ -1,0 +1,135 @@
+service: clearmail-api
+plugins:
+  - serverless-pseudo-parameters
+
+package:
+  individually: true
+  exclude:
+    - "**/*"
+
+custom:
+  region: us-east-1
+  deploymentBucket: 'global-deployment-bucket'
+
+provider:
+  stage: prod
+  name: aws
+  runtime: nodejs8.10
+  region: us-east-1
+  deploymentBucket:
+    name: ${self:custom.deploymentBucket}
+  environment:
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    CLIENT_SESSION_ID: ${ssm:/printawesome-api/CLIENT_SESSION_ID}
+    CLIENT_SESSION_SECRET: ${ssm:/printawesome-api/CLIENT_SESSION_SECRET~true}
+    CLIENT_AUTH_ID: ${ssm:/printawesome-api/CLIENT_AUTH_ID}
+    AWS_BUCKET: clearmail
+    SES_TOPIC_ARN: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:clearmail-email
+    AWS_ACCOUNT_ID: '#{AWS::AccountId}'
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - sqs:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - ses:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - sns:*
+      Resource: "*"
+
+functions:
+  graphql:
+    handler: src/graphql/handler.handler
+    package:
+      include:
+        - src/graphql/**
+        - node_modules/**
+    events:
+      - http:
+          path: graphql
+          method: post
+          integration: lambda-proxy
+          authorizer: auth
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          integration: lambda-proxy
+          authorizer: auth
+          cors: true
+      - http:
+          path: graphiql
+          method: get
+          cors: true
+  auth:
+    handler: src/auth/handler.handler
+    package:
+      include:
+        - src/auth/**
+        - node_modules/**
+
+resources:
+  Resources:
+    GraphqlLogGroup:
+      Properties:
+        RetentionInDays: 7
+    AuthLogGroup:
+      Properties:
+        RetentionInDays: 7
+    MessagesDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}-messages
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+    UsersDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}-users
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: emailAddress
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes: 
+          - IndexName: emails-index
+            KeySchema: 
+            - AttributeName: emailAddress
+              KeyType: HASH
+            - AttributeName: id
+              KeyType: RANGE
+            Projection: 
+              ProjectionType: ALL
+            ProvisionedThroughput: 
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1      
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
