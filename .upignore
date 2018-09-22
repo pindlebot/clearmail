@@ -1,0 +1,8 @@
+app
+.cache
+.babelrc
+serverless
+.gitingore
+.upignore
+up.json
+*.log

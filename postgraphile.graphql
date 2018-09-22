@@ -1,0 +1,2544 @@
+"""All input for the create `Entity` mutation."""
+input CreateEntityInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Entity` to be created by this mutation."""
+  entity: EntityInput!
+}
+
+"""The output of our create `Entity` mutation."""
+type CreateEntityPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Entity` that was created by this mutation."""
+  entity: Entity
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Entity`."""
+  userByUserId: User
+
+  """An edge for our `Entity`. May be used by Relay 1."""
+  entityEdge(
+    """The method to use when ordering `Entity`."""
+    orderBy: [EntitiesOrderBy!] = PRIMARY_KEY_ASC
+  ): EntitiesEdge
+}
+
+"""All input for the create `EnvironmentalVariable` mutation."""
+input CreateEnvironmentalVariableInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `EnvironmentalVariable` to be created by this mutation."""
+  environmentalVariable: EnvironmentalVariableInput!
+}
+
+"""The output of our create `EnvironmentalVariable` mutation."""
+type CreateEnvironmentalVariablePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EnvironmentalVariable` that was created by this mutation."""
+  environmentalVariable: EnvironmentalVariable
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `EnvironmentalVariable`. May be used by Relay 1."""
+  environmentalVariableEdge(
+    """The method to use when ordering `EnvironmentalVariable`."""
+    orderBy: [EnvironmentalVariablesOrderBy!] = NATURAL
+  ): EnvironmentalVariablesEdge
+}
+
+"""All input for the create `File` mutation."""
+input CreateFileInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `File` to be created by this mutation."""
+  file: FileInput!
+}
+
+"""The output of our create `File` mutation."""
+type CreateFilePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `File` that was created by this mutation."""
+  file: File
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `File`. May be used by Relay 1."""
+  fileEdge(
+    """The method to use when ordering `File`."""
+    orderBy: [FilesOrderBy!] = PRIMARY_KEY_ASC
+  ): FilesEdge
+}
+
+"""All input for the create `Message` mutation."""
+input CreateMessageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Message` to be created by this mutation."""
+  message: MessageInput!
+}
+
+"""The output of our create `Message` mutation."""
+type CreateMessagePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Message` that was created by this mutation."""
+  message: Message
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Message`."""
+  userByUserId: User
+
+  """Reads a single `Thread` that is related to this `Message`."""
+  threadByThreadId: Thread
+
+  """An edge for our `Message`. May be used by Relay 1."""
+  messageEdge(
+    """The method to use when ordering `Message`."""
+    orderBy: [MessagesOrderBy!] = PRIMARY_KEY_ASC
+  ): MessagesEdge
+}
+
+"""All input for the create `MessagesEntity` mutation."""
+input CreateMessagesEntityInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `MessagesEntity` to be created by this mutation."""
+  messagesEntity: MessagesEntityInput!
+}
+
+"""The output of our create `MessagesEntity` mutation."""
+type CreateMessagesEntityPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `MessagesEntity` that was created by this mutation."""
+  messagesEntity: MessagesEntity
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Message` that is related to this `MessagesEntity`."""
+  messageByMessageId: Message
+
+  """Reads a single `Entity` that is related to this `MessagesEntity`."""
+  entityByEntityId: Entity
+
+  """An edge for our `MessagesEntity`. May be used by Relay 1."""
+  messagesEntityEdge(
+    """The method to use when ordering `MessagesEntity`."""
+    orderBy: [MessagesEntitiesOrderBy!] = PRIMARY_KEY_ASC
+  ): MessagesEntitiesEdge
+}
+
+"""All input for the create `Thread` mutation."""
+input CreateThreadInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `Thread` to be created by this mutation."""
+  thread: ThreadInput!
+}
+
+"""The output of our create `Thread` mutation."""
+type CreateThreadPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Thread` that was created by this mutation."""
+  thread: Thread
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Thread`."""
+  userByUserId: User
+
+  """An edge for our `Thread`. May be used by Relay 1."""
+  threadEdge(
+    """The method to use when ordering `Thread`."""
+    orderBy: [ThreadsOrderBy!] = PRIMARY_KEY_ASC
+  ): ThreadsEdge
+}
+
+"""All input for the create `User` mutation."""
+input CreateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `User` to be created by this mutation."""
+  user: UserInput!
+}
+
+"""The output of our create `User` mutation."""
+type CreateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was created by this mutation."""
+  user: User
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = PRIMARY_KEY_ASC
+  ): UsersEdge
+}
+
+"""A location in a connection that can be used for resuming pagination."""
+scalar Cursor
+
+"""
+A point in time as described by the [ISO
+8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
+"""
+scalar Datetime
+
+"""All input for the `deleteEntityById` mutation."""
+input DeleteEntityByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deleteEntity` mutation."""
+input DeleteEntityInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Entity` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Entity` mutation."""
+type DeleteEntityPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Entity` that was deleted by this mutation."""
+  entity: Entity
+  deletedEntityId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Entity`."""
+  userByUserId: User
+
+  """An edge for our `Entity`. May be used by Relay 1."""
+  entityEdge(
+    """The method to use when ordering `Entity`."""
+    orderBy: [EntitiesOrderBy!] = PRIMARY_KEY_ASC
+  ): EntitiesEdge
+}
+
+"""All input for the `deleteEnvironmentalVariableByName` mutation."""
+input DeleteEnvironmentalVariableByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  name: String!
+}
+
+"""The output of our delete `EnvironmentalVariable` mutation."""
+type DeleteEnvironmentalVariablePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EnvironmentalVariable` that was deleted by this mutation."""
+  environmentalVariable: EnvironmentalVariable
+  deletedEnvironmentalVariableId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `EnvironmentalVariable`. May be used by Relay 1."""
+  environmentalVariableEdge(
+    """The method to use when ordering `EnvironmentalVariable`."""
+    orderBy: [EnvironmentalVariablesOrderBy!] = NATURAL
+  ): EnvironmentalVariablesEdge
+}
+
+"""All input for the `deleteFileById` mutation."""
+input DeleteFileByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deleteFile` mutation."""
+input DeleteFileInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `File` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `File` mutation."""
+type DeleteFilePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `File` that was deleted by this mutation."""
+  file: File
+  deletedFileId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `File`. May be used by Relay 1."""
+  fileEdge(
+    """The method to use when ordering `File`."""
+    orderBy: [FilesOrderBy!] = PRIMARY_KEY_ASC
+  ): FilesEdge
+}
+
+"""All input for the `deleteMessageById` mutation."""
+input DeleteMessageByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deleteMessage` mutation."""
+input DeleteMessageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Message` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Message` mutation."""
+type DeleteMessagePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Message` that was deleted by this mutation."""
+  message: Message
+  deletedMessageId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Message`."""
+  userByUserId: User
+
+  """Reads a single `Thread` that is related to this `Message`."""
+  threadByThreadId: Thread
+
+  """An edge for our `Message`. May be used by Relay 1."""
+  messageEdge(
+    """The method to use when ordering `Message`."""
+    orderBy: [MessagesOrderBy!] = PRIMARY_KEY_ASC
+  ): MessagesEdge
+}
+
+"""
+All input for the `deleteMessagesEntityByMessageIdAndEntityId` mutation.
+"""
+input DeleteMessagesEntityByMessageIdAndEntityIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  messageId: UUID!
+  entityId: UUID!
+}
+
+"""All input for the `deleteMessagesEntity` mutation."""
+input DeleteMessagesEntityInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `MessagesEntity` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `MessagesEntity` mutation."""
+type DeleteMessagesEntityPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `MessagesEntity` that was deleted by this mutation."""
+  messagesEntity: MessagesEntity
+  deletedMessagesEntityId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Message` that is related to this `MessagesEntity`."""
+  messageByMessageId: Message
+
+  """Reads a single `Entity` that is related to this `MessagesEntity`."""
+  entityByEntityId: Entity
+
+  """An edge for our `MessagesEntity`. May be used by Relay 1."""
+  messagesEntityEdge(
+    """The method to use when ordering `MessagesEntity`."""
+    orderBy: [MessagesEntitiesOrderBy!] = PRIMARY_KEY_ASC
+  ): MessagesEntitiesEdge
+}
+
+"""All input for the `deleteThreadById` mutation."""
+input DeleteThreadByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deleteThread` mutation."""
+input DeleteThreadInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Thread` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `Thread` mutation."""
+type DeleteThreadPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Thread` that was deleted by this mutation."""
+  thread: Thread
+  deletedThreadId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Thread`."""
+  userByUserId: User
+
+  """An edge for our `Thread`. May be used by Relay 1."""
+  threadEdge(
+    """The method to use when ordering `Thread`."""
+    orderBy: [ThreadsOrderBy!] = PRIMARY_KEY_ASC
+  ): ThreadsEdge
+}
+
+"""All input for the `deleteUserById` mutation."""
+input DeleteUserByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  id: UUID!
+}
+
+"""All input for the `deleteUser` mutation."""
+input DeleteUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be deleted.
+  """
+  nodeId: ID!
+}
+
+"""The output of our delete `User` mutation."""
+type DeleteUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was deleted by this mutation."""
+  user: User
+  deletedUserId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = PRIMARY_KEY_ASC
+  ): UsersEdge
+}
+
+"""A connection to a list of `Entity` values."""
+type EntitiesConnection {
+  """A list of `Entity` objects."""
+  nodes: [Entity]!
+
+  """
+  A list of edges which contains the `Entity` and cursor to aid in pagination.
+  """
+  edges: [EntitiesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Entity` you could get from the connection."""
+  totalCount: Int
+}
+
+"""A `Entity` edge in the connection."""
+type EntitiesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Entity` at the end of the edge."""
+  node: Entity
+}
+
+"""Methods to use when ordering `Entity`."""
+enum EntitiesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  NAME_ASC
+  NAME_DESC
+  EMAIL_ADDRESS_ASC
+  EMAIL_ADDRESS_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  ENTITY_TYPE_ASC
+  ENTITY_TYPE_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+type Entity implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  name: String
+  emailAddress: String!
+  createdAt: Datetime
+  userId: UUID!
+  entityType: EntityType
+
+  """Reads a single `User` that is related to this `Entity`."""
+  userByUserId: User
+
+  """Reads and enables pagination through a set of `MessagesEntity`."""
+  messagesEntitiesByEntityId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `MessagesEntity`."""
+    orderBy: [MessagesEntitiesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MessagesEntityCondition
+  ): MessagesEntitiesConnection!
+}
+
+"""
+A condition to be used against `Entity` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input EntityCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `emailAddress` field."""
+  emailAddress: String
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `userId` field."""
+  userId: UUID
+
+  """Checks for equality with the object’s `entityType` field."""
+  entityType: EntityType
+}
+
+"""An input for mutations affecting `Entity`"""
+input EntityInput {
+  id: UUID
+  name: String
+  emailAddress: String!
+  createdAt: Datetime
+  userId: UUID!
+  entityType: EntityType
+}
+
+"""
+Represents an update to a `Entity`. Fields that are set will be updated.
+"""
+input EntityPatch {
+  id: UUID
+  name: String
+  emailAddress: String
+  createdAt: Datetime
+  userId: UUID
+  entityType: EntityType
+}
+
+enum EntityType {
+  DESTINATION
+  SENDER
+}
+
+type EnvironmentalVariable {
+  name: String!
+  value: String
+}
+
+"""
+A condition to be used against `EnvironmentalVariable` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input EnvironmentalVariableCondition {
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `value` field."""
+  value: String
+}
+
+"""An input for mutations affecting `EnvironmentalVariable`"""
+input EnvironmentalVariableInput {
+  name: String!
+  value: String
+}
+
+"""
+Represents an update to a `EnvironmentalVariable`. Fields that are set will be updated.
+"""
+input EnvironmentalVariablePatch {
+  name: String
+  value: String
+}
+
+"""A connection to a list of `EnvironmentalVariable` values."""
+type EnvironmentalVariablesConnection {
+  """A list of `EnvironmentalVariable` objects."""
+  nodes: [EnvironmentalVariable]!
+
+  """
+  A list of edges which contains the `EnvironmentalVariable` and cursor to aid in pagination.
+  """
+  edges: [EnvironmentalVariablesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `EnvironmentalVariable` you could get from the connection.
+  """
+  totalCount: Int
+}
+
+"""A `EnvironmentalVariable` edge in the connection."""
+type EnvironmentalVariablesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `EnvironmentalVariable` at the end of the edge."""
+  node: EnvironmentalVariable
+}
+
+"""Methods to use when ordering `EnvironmentalVariable`."""
+enum EnvironmentalVariablesOrderBy {
+  NATURAL
+  NAME_ASC
+  NAME_DESC
+  VALUE_ASC
+  VALUE_DESC
+}
+
+type File implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  createdAt: Datetime
+  name: String
+  data: String
+  contentType: String
+  contentLength: Int
+  size: Int
+}
+
+"""
+A condition to be used against `File` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input FileCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `name` field."""
+  name: String
+
+  """Checks for equality with the object’s `data` field."""
+  data: String
+
+  """Checks for equality with the object’s `contentType` field."""
+  contentType: String
+
+  """Checks for equality with the object’s `contentLength` field."""
+  contentLength: Int
+
+  """Checks for equality with the object’s `size` field."""
+  size: Int
+}
+
+"""An input for mutations affecting `File`"""
+input FileInput {
+  id: UUID
+  createdAt: Datetime
+  name: String
+  data: String
+  contentType: String
+  contentLength: Int
+  size: Int
+}
+
+"""
+Represents an update to a `File`. Fields that are set will be updated.
+"""
+input FilePatch {
+  id: UUID
+  createdAt: Datetime
+  name: String
+  data: String
+  contentType: String
+  contentLength: Int
+  size: Int
+}
+
+"""A connection to a list of `File` values."""
+type FilesConnection {
+  """A list of `File` objects."""
+  nodes: [File]!
+
+  """
+  A list of edges which contains the `File` and cursor to aid in pagination.
+  """
+  edges: [FilesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `File` you could get from the connection."""
+  totalCount: Int
+}
+
+"""A `File` edge in the connection."""
+type FilesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `File` at the end of the edge."""
+  node: File
+}
+
+"""Methods to use when ordering `File`."""
+enum FilesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  NAME_ASC
+  NAME_DESC
+  DATA_ASC
+  DATA_DESC
+  CONTENT_TYPE_ASC
+  CONTENT_TYPE_DESC
+  CONTENT_LENGTH_ASC
+  CONTENT_LENGTH_DESC
+  SIZE_ASC
+  SIZE_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A JavaScript object encoded in the JSON format as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+enum Label {
+  SENT
+  INBOX
+}
+
+type Message implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  createdAt: Datetime
+  userId: UUID!
+  threadId: UUID!
+  source: JSON
+  mail: JSON
+  receipt: JSON
+  messageId: String
+  replyTo: JSON
+  inReplyTo: String
+  subject: String
+  text: String
+  textAsHtml: String
+  snippet: String
+  html: String
+  destination: JSON
+  labels: [Label]
+
+  """Reads a single `User` that is related to this `Message`."""
+  userByUserId: User
+
+  """Reads a single `Thread` that is related to this `Message`."""
+  threadByThreadId: Thread
+
+  """Reads and enables pagination through a set of `MessagesEntity`."""
+  messagesEntitiesByMessageId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `MessagesEntity`."""
+    orderBy: [MessagesEntitiesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MessagesEntityCondition
+  ): MessagesEntitiesConnection!
+}
+
+"""
+A condition to be used against `Message` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input MessageCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `userId` field."""
+  userId: UUID
+
+  """Checks for equality with the object’s `threadId` field."""
+  threadId: UUID
+
+  """Checks for equality with the object’s `source` field."""
+  source: JSON
+
+  """Checks for equality with the object’s `mail` field."""
+  mail: JSON
+
+  """Checks for equality with the object’s `receipt` field."""
+  receipt: JSON
+
+  """Checks for equality with the object’s `messageId` field."""
+  messageId: String
+
+  """Checks for equality with the object’s `replyTo` field."""
+  replyTo: JSON
+
+  """Checks for equality with the object’s `inReplyTo` field."""
+  inReplyTo: String
+
+  """Checks for equality with the object’s `subject` field."""
+  subject: String
+
+  """Checks for equality with the object’s `text` field."""
+  text: String
+
+  """Checks for equality with the object’s `textAsHtml` field."""
+  textAsHtml: String
+
+  """Checks for equality with the object’s `snippet` field."""
+  snippet: String
+
+  """Checks for equality with the object’s `html` field."""
+  html: String
+
+  """Checks for equality with the object’s `destination` field."""
+  destination: JSON
+
+  """Checks for equality with the object’s `labels` field."""
+  labels: [Label]
+}
+
+"""An input for mutations affecting `Message`"""
+input MessageInput {
+  id: UUID
+  createdAt: Datetime
+  userId: UUID!
+  threadId: UUID!
+  source: JSON
+  mail: JSON
+  receipt: JSON
+  messageId: String
+  replyTo: JSON
+  inReplyTo: String
+  subject: String
+  text: String
+  textAsHtml: String
+  snippet: String
+  html: String
+  destination: JSON
+  labels: [Label]
+}
+
+"""
+Represents an update to a `Message`. Fields that are set will be updated.
+"""
+input MessagePatch {
+  id: UUID
+  createdAt: Datetime
+  userId: UUID
+  threadId: UUID
+  source: JSON
+  mail: JSON
+  receipt: JSON
+  messageId: String
+  replyTo: JSON
+  inReplyTo: String
+  subject: String
+  text: String
+  textAsHtml: String
+  snippet: String
+  html: String
+  destination: JSON
+  labels: [Label]
+}
+
+"""A connection to a list of `Message` values."""
+type MessagesConnection {
+  """A list of `Message` objects."""
+  nodes: [Message]!
+
+  """
+  A list of edges which contains the `Message` and cursor to aid in pagination.
+  """
+  edges: [MessagesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Message` you could get from the connection."""
+  totalCount: Int
+}
+
+"""A `Message` edge in the connection."""
+type MessagesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Message` at the end of the edge."""
+  node: Message
+}
+
+"""A connection to a list of `MessagesEntity` values."""
+type MessagesEntitiesConnection {
+  """A list of `MessagesEntity` objects."""
+  nodes: [MessagesEntity]!
+
+  """
+  A list of edges which contains the `MessagesEntity` and cursor to aid in pagination.
+  """
+  edges: [MessagesEntitiesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `MessagesEntity` you could get from the connection.
+  """
+  totalCount: Int
+}
+
+"""A `MessagesEntity` edge in the connection."""
+type MessagesEntitiesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `MessagesEntity` at the end of the edge."""
+  node: MessagesEntity
+}
+
+"""Methods to use when ordering `MessagesEntity`."""
+enum MessagesEntitiesOrderBy {
+  NATURAL
+  MESSAGE_ID_ASC
+  MESSAGE_ID_DESC
+  ENTITY_ID_ASC
+  ENTITY_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+type MessagesEntity implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  messageId: UUID!
+  entityId: UUID!
+
+  """Reads a single `Message` that is related to this `MessagesEntity`."""
+  messageByMessageId: Message
+
+  """Reads a single `Entity` that is related to this `MessagesEntity`."""
+  entityByEntityId: Entity
+}
+
+"""
+A condition to be used against `MessagesEntity` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input MessagesEntityCondition {
+  """Checks for equality with the object’s `messageId` field."""
+  messageId: UUID
+
+  """Checks for equality with the object’s `entityId` field."""
+  entityId: UUID
+}
+
+"""An input for mutations affecting `MessagesEntity`"""
+input MessagesEntityInput {
+  messageId: UUID!
+  entityId: UUID!
+}
+
+"""
+Represents an update to a `MessagesEntity`. Fields that are set will be updated.
+"""
+input MessagesEntityPatch {
+  messageId: UUID
+  entityId: UUID
+}
+
+"""Methods to use when ordering `Message`."""
+enum MessagesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  THREAD_ID_ASC
+  THREAD_ID_DESC
+  SOURCE_ASC
+  SOURCE_DESC
+  MAIL_ASC
+  MAIL_DESC
+  RECEIPT_ASC
+  RECEIPT_DESC
+  MESSAGE_ID_ASC
+  MESSAGE_ID_DESC
+  REPLY_TO_ASC
+  REPLY_TO_DESC
+  IN_REPLY_TO_ASC
+  IN_REPLY_TO_DESC
+  SUBJECT_ASC
+  SUBJECT_DESC
+  TEXT_ASC
+  TEXT_DESC
+  TEXT_AS_HTML_ASC
+  TEXT_AS_HTML_DESC
+  SNIPPET_ASC
+  SNIPPET_DESC
+  HTML_ASC
+  HTML_DESC
+  DESTINATION_ASC
+  DESTINATION_DESC
+  LABELS_ASC
+  LABELS_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+The root mutation type which contains root level fields which mutate data.
+"""
+type Mutation {
+  """Creates a single `Entity`."""
+  createEntity(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateEntityInput!
+  ): CreateEntityPayload
+
+  """Creates a single `EnvironmentalVariable`."""
+  createEnvironmentalVariable(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateEnvironmentalVariableInput!
+  ): CreateEnvironmentalVariablePayload
+
+  """Creates a single `File`."""
+  createFile(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateFileInput!
+  ): CreateFilePayload
+
+  """Creates a single `Message`."""
+  createMessage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateMessageInput!
+  ): CreateMessagePayload
+
+  """Creates a single `MessagesEntity`."""
+  createMessagesEntity(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateMessagesEntityInput!
+  ): CreateMessagesEntityPayload
+
+  """Creates a single `Thread`."""
+  createThread(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateThreadInput!
+  ): CreateThreadPayload
+
+  """Creates a single `User`."""
+  createUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateUserInput!
+  ): CreateUserPayload
+
+  """Updates a single `Entity` using its globally unique id and a patch."""
+  updateEntity(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEntityInput!
+  ): UpdateEntityPayload
+
+  """Updates a single `Entity` using a unique key and a patch."""
+  updateEntityById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEntityByIdInput!
+  ): UpdateEntityPayload
+
+  """
+  Updates a single `EnvironmentalVariable` using a unique key and a patch.
+  """
+  updateEnvironmentalVariableByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEnvironmentalVariableByNameInput!
+  ): UpdateEnvironmentalVariablePayload
+
+  """Updates a single `File` using its globally unique id and a patch."""
+  updateFile(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateFileInput!
+  ): UpdateFilePayload
+
+  """Updates a single `File` using a unique key and a patch."""
+  updateFileById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateFileByIdInput!
+  ): UpdateFilePayload
+
+  """Updates a single `Message` using its globally unique id and a patch."""
+  updateMessage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateMessageInput!
+  ): UpdateMessagePayload
+
+  """Updates a single `Message` using a unique key and a patch."""
+  updateMessageById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateMessageByIdInput!
+  ): UpdateMessagePayload
+
+  """
+  Updates a single `MessagesEntity` using its globally unique id and a patch.
+  """
+  updateMessagesEntity(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateMessagesEntityInput!
+  ): UpdateMessagesEntityPayload
+
+  """Updates a single `MessagesEntity` using a unique key and a patch."""
+  updateMessagesEntityByMessageIdAndEntityId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateMessagesEntityByMessageIdAndEntityIdInput!
+  ): UpdateMessagesEntityPayload
+
+  """Updates a single `Thread` using its globally unique id and a patch."""
+  updateThread(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateThreadInput!
+  ): UpdateThreadPayload
+
+  """Updates a single `Thread` using a unique key and a patch."""
+  updateThreadById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateThreadByIdInput!
+  ): UpdateThreadPayload
+
+  """Updates a single `User` using its globally unique id and a patch."""
+  updateUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserInput!
+  ): UpdateUserPayload
+
+  """Updates a single `User` using a unique key and a patch."""
+  updateUserById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateUserByIdInput!
+  ): UpdateUserPayload
+
+  """Deletes a single `Entity` using its globally unique id."""
+  deleteEntity(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEntityInput!
+  ): DeleteEntityPayload
+
+  """Deletes a single `Entity` using a unique key."""
+  deleteEntityById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEntityByIdInput!
+  ): DeleteEntityPayload
+
+  """Deletes a single `EnvironmentalVariable` using a unique key."""
+  deleteEnvironmentalVariableByName(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEnvironmentalVariableByNameInput!
+  ): DeleteEnvironmentalVariablePayload
+
+  """Deletes a single `File` using its globally unique id."""
+  deleteFile(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteFileInput!
+  ): DeleteFilePayload
+
+  """Deletes a single `File` using a unique key."""
+  deleteFileById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteFileByIdInput!
+  ): DeleteFilePayload
+
+  """Deletes a single `Message` using its globally unique id."""
+  deleteMessage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteMessageInput!
+  ): DeleteMessagePayload
+
+  """Deletes a single `Message` using a unique key."""
+  deleteMessageById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteMessageByIdInput!
+  ): DeleteMessagePayload
+
+  """Deletes a single `MessagesEntity` using its globally unique id."""
+  deleteMessagesEntity(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteMessagesEntityInput!
+  ): DeleteMessagesEntityPayload
+
+  """Deletes a single `MessagesEntity` using a unique key."""
+  deleteMessagesEntityByMessageIdAndEntityId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteMessagesEntityByMessageIdAndEntityIdInput!
+  ): DeleteMessagesEntityPayload
+
+  """Deletes a single `Thread` using its globally unique id."""
+  deleteThread(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteThreadInput!
+  ): DeleteThreadPayload
+
+  """Deletes a single `Thread` using a unique key."""
+  deleteThreadById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteThreadByIdInput!
+  ): DeleteThreadPayload
+
+  """Deletes a single `User` using its globally unique id."""
+  deleteUser(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserInput!
+  ): DeleteUserPayload
+
+  """Deletes a single `User` using a unique key."""
+  deleteUserById(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteUserByIdInput!
+  ): DeleteUserPayload
+}
+
+"""An object with a globally unique `ID`."""
+interface Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: Cursor
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: Cursor
+}
+
+"""The root query type which gives access points into the data universe."""
+type Query implements Node {
+  """
+  Exposes the root query type nested one level down. This is helpful for Relay 1
+  which can only query top level fields if they are in a particular form.
+  """
+  query: Query!
+
+  """
+  The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`.
+  """
+  nodeId: ID!
+
+  """Fetches an object given its globally unique `ID`."""
+  node(
+    """The globally unique `ID`."""
+    nodeId: ID!
+  ): Node
+
+  """Reads and enables pagination through a set of `Entity`."""
+  allEntities(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Entity`."""
+    orderBy: [EntitiesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EntityCondition
+  ): EntitiesConnection
+
+  """
+  Reads and enables pagination through a set of `EnvironmentalVariable`.
+  """
+  allEnvironmentalVariables(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EnvironmentalVariable`."""
+    orderBy: [EnvironmentalVariablesOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EnvironmentalVariableCondition
+  ): EnvironmentalVariablesConnection
+
+  """Reads and enables pagination through a set of `File`."""
+  allFiles(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `File`."""
+    orderBy: [FilesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: FileCondition
+  ): FilesConnection
+
+  """Reads and enables pagination through a set of `Message`."""
+  allMessages(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Message`."""
+    orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MessageCondition
+  ): MessagesConnection
+
+  """Reads and enables pagination through a set of `MessagesEntity`."""
+  allMessagesEntities(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `MessagesEntity`."""
+    orderBy: [MessagesEntitiesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MessagesEntityCondition
+  ): MessagesEntitiesConnection
+
+  """Reads and enables pagination through a set of `Thread`."""
+  allThreads(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Thread`."""
+    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ThreadCondition
+  ): ThreadsConnection
+
+  """Reads and enables pagination through a set of `User`."""
+  allUsers(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: UserCondition
+  ): UsersConnection
+  entityById(id: UUID!): Entity
+  environmentalVariableByName(name: String!): EnvironmentalVariable
+  fileById(id: UUID!): File
+  messageById(id: UUID!): Message
+  messagesEntityByMessageIdAndEntityId(messageId: UUID!, entityId: UUID!): MessagesEntity
+  threadById(id: UUID!): Thread
+  userById(id: UUID!): User
+
+  """Reads a single `Entity` using its globally unique `ID`."""
+  entity(
+    """The globally unique `ID` to be used in selecting a single `Entity`."""
+    nodeId: ID!
+  ): Entity
+
+  """Reads a single `File` using its globally unique `ID`."""
+  file(
+    """The globally unique `ID` to be used in selecting a single `File`."""
+    nodeId: ID!
+  ): File
+
+  """Reads a single `Message` using its globally unique `ID`."""
+  message(
+    """The globally unique `ID` to be used in selecting a single `Message`."""
+    nodeId: ID!
+  ): Message
+
+  """Reads a single `MessagesEntity` using its globally unique `ID`."""
+  messagesEntity(
+    """
+    The globally unique `ID` to be used in selecting a single `MessagesEntity`.
+    """
+    nodeId: ID!
+  ): MessagesEntity
+
+  """Reads a single `Thread` using its globally unique `ID`."""
+  thread(
+    """The globally unique `ID` to be used in selecting a single `Thread`."""
+    nodeId: ID!
+  ): Thread
+
+  """Reads a single `User` using its globally unique `ID`."""
+  user(
+    """The globally unique `ID` to be used in selecting a single `User`."""
+    nodeId: ID!
+  ): User
+}
+
+enum Role {
+  ADMIN
+  USER
+  SESSION
+}
+
+type Thread implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  createdAt: Datetime
+  userId: UUID
+
+  """Reads a single `User` that is related to this `Thread`."""
+  userByUserId: User
+
+  """Reads and enables pagination through a set of `Message`."""
+  messagesByThreadId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Message`."""
+    orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MessageCondition
+  ): MessagesConnection!
+}
+
+"""
+A condition to be used against `Thread` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input ThreadCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `userId` field."""
+  userId: UUID
+}
+
+"""An input for mutations affecting `Thread`"""
+input ThreadInput {
+  id: UUID
+  createdAt: Datetime
+  userId: UUID
+}
+
+"""
+Represents an update to a `Thread`. Fields that are set will be updated.
+"""
+input ThreadPatch {
+  id: UUID
+  createdAt: Datetime
+  userId: UUID
+}
+
+"""A connection to a list of `Thread` values."""
+type ThreadsConnection {
+  """A list of `Thread` objects."""
+  nodes: [Thread]!
+
+  """
+  A list of edges which contains the `Thread` and cursor to aid in pagination.
+  """
+  edges: [ThreadsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Thread` you could get from the connection."""
+  totalCount: Int
+}
+
+"""A `Thread` edge in the connection."""
+type ThreadsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Thread` at the end of the edge."""
+  node: Thread
+}
+
+"""Methods to use when ordering `Thread`."""
+enum ThreadsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  USER_ID_ASC
+  USER_ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""All input for the `updateEntityById` mutation."""
+input UpdateEntityByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Entity` being updated.
+  """
+  entityPatch: EntityPatch!
+  id: UUID!
+}
+
+"""All input for the `updateEntity` mutation."""
+input UpdateEntityInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Entity` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Entity` being updated.
+  """
+  entityPatch: EntityPatch!
+}
+
+"""The output of our update `Entity` mutation."""
+type UpdateEntityPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Entity` that was updated by this mutation."""
+  entity: Entity
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Entity`."""
+  userByUserId: User
+
+  """An edge for our `Entity`. May be used by Relay 1."""
+  entityEdge(
+    """The method to use when ordering `Entity`."""
+    orderBy: [EntitiesOrderBy!] = PRIMARY_KEY_ASC
+  ): EntitiesEdge
+}
+
+"""All input for the `updateEnvironmentalVariableByName` mutation."""
+input UpdateEnvironmentalVariableByNameInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `EnvironmentalVariable` being updated.
+  """
+  environmentalVariablePatch: EnvironmentalVariablePatch!
+  name: String!
+}
+
+"""The output of our update `EnvironmentalVariable` mutation."""
+type UpdateEnvironmentalVariablePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EnvironmentalVariable` that was updated by this mutation."""
+  environmentalVariable: EnvironmentalVariable
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `EnvironmentalVariable`. May be used by Relay 1."""
+  environmentalVariableEdge(
+    """The method to use when ordering `EnvironmentalVariable`."""
+    orderBy: [EnvironmentalVariablesOrderBy!] = NATURAL
+  ): EnvironmentalVariablesEdge
+}
+
+"""All input for the `updateFileById` mutation."""
+input UpdateFileByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `File` being updated.
+  """
+  filePatch: FilePatch!
+  id: UUID!
+}
+
+"""All input for the `updateFile` mutation."""
+input UpdateFileInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `File` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `File` being updated.
+  """
+  filePatch: FilePatch!
+}
+
+"""The output of our update `File` mutation."""
+type UpdateFilePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `File` that was updated by this mutation."""
+  file: File
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `File`. May be used by Relay 1."""
+  fileEdge(
+    """The method to use when ordering `File`."""
+    orderBy: [FilesOrderBy!] = PRIMARY_KEY_ASC
+  ): FilesEdge
+}
+
+"""All input for the `updateMessageById` mutation."""
+input UpdateMessageByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Message` being updated.
+  """
+  messagePatch: MessagePatch!
+  id: UUID!
+}
+
+"""All input for the `updateMessage` mutation."""
+input UpdateMessageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Message` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Message` being updated.
+  """
+  messagePatch: MessagePatch!
+}
+
+"""The output of our update `Message` mutation."""
+type UpdateMessagePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Message` that was updated by this mutation."""
+  message: Message
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Message`."""
+  userByUserId: User
+
+  """Reads a single `Thread` that is related to this `Message`."""
+  threadByThreadId: Thread
+
+  """An edge for our `Message`. May be used by Relay 1."""
+  messageEdge(
+    """The method to use when ordering `Message`."""
+    orderBy: [MessagesOrderBy!] = PRIMARY_KEY_ASC
+  ): MessagesEdge
+}
+
+"""
+All input for the `updateMessagesEntityByMessageIdAndEntityId` mutation.
+"""
+input UpdateMessagesEntityByMessageIdAndEntityIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `MessagesEntity` being updated.
+  """
+  messagesEntityPatch: MessagesEntityPatch!
+  messageId: UUID!
+  entityId: UUID!
+}
+
+"""All input for the `updateMessagesEntity` mutation."""
+input UpdateMessagesEntityInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `MessagesEntity` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `MessagesEntity` being updated.
+  """
+  messagesEntityPatch: MessagesEntityPatch!
+}
+
+"""The output of our update `MessagesEntity` mutation."""
+type UpdateMessagesEntityPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `MessagesEntity` that was updated by this mutation."""
+  messagesEntity: MessagesEntity
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `Message` that is related to this `MessagesEntity`."""
+  messageByMessageId: Message
+
+  """Reads a single `Entity` that is related to this `MessagesEntity`."""
+  entityByEntityId: Entity
+
+  """An edge for our `MessagesEntity`. May be used by Relay 1."""
+  messagesEntityEdge(
+    """The method to use when ordering `MessagesEntity`."""
+    orderBy: [MessagesEntitiesOrderBy!] = PRIMARY_KEY_ASC
+  ): MessagesEntitiesEdge
+}
+
+"""All input for the `updateThreadById` mutation."""
+input UpdateThreadByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `Thread` being updated.
+  """
+  threadPatch: ThreadPatch!
+  id: UUID!
+}
+
+"""All input for the `updateThread` mutation."""
+input UpdateThreadInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `Thread` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `Thread` being updated.
+  """
+  threadPatch: ThreadPatch!
+}
+
+"""The output of our update `Thread` mutation."""
+type UpdateThreadPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `Thread` that was updated by this mutation."""
+  thread: Thread
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """Reads a single `User` that is related to this `Thread`."""
+  userByUserId: User
+
+  """An edge for our `Thread`. May be used by Relay 1."""
+  threadEdge(
+    """The method to use when ordering `Thread`."""
+    orderBy: [ThreadsOrderBy!] = PRIMARY_KEY_ASC
+  ): ThreadsEdge
+}
+
+"""All input for the `updateUserById` mutation."""
+input UpdateUserByIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  userPatch: UserPatch!
+  id: UUID!
+}
+
+"""All input for the `updateUser` mutation."""
+input UpdateUserInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `User` to be updated.
+  """
+  nodeId: ID!
+
+  """
+  An object where the defined keys will be set on the `User` being updated.
+  """
+  userPatch: UserPatch!
+}
+
+"""The output of our update `User` mutation."""
+type UpdateUserPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `User` that was updated by this mutation."""
+  user: User
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `User`. May be used by Relay 1."""
+  userEdge(
+    """The method to use when ordering `User`."""
+    orderBy: [UsersOrderBy!] = PRIMARY_KEY_ASC
+  ): UsersEdge
+}
+
+type User implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  nodeId: ID!
+  id: UUID!
+  createdAt: Datetime
+  token: String
+  emailAddress: String
+  password: String
+  subscribed: Boolean
+  confirmed: Boolean
+  role: Role
+
+  """Reads and enables pagination through a set of `Thread`."""
+  threadsByUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Thread`."""
+    orderBy: [ThreadsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ThreadCondition
+  ): ThreadsConnection!
+
+  """Reads and enables pagination through a set of `Message`."""
+  messagesByUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Message`."""
+    orderBy: [MessagesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: MessageCondition
+  ): MessagesConnection!
+
+  """Reads and enables pagination through a set of `Entity`."""
+  entitiesByUserId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Entity`."""
+    orderBy: [EntitiesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EntityCondition
+  ): EntitiesConnection!
+}
+
+"""
+A condition to be used against `User` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input UserCondition {
+  """Checks for equality with the object’s `id` field."""
+  id: UUID
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `token` field."""
+  token: String
+
+  """Checks for equality with the object’s `emailAddress` field."""
+  emailAddress: String
+
+  """Checks for equality with the object’s `password` field."""
+  password: String
+
+  """Checks for equality with the object’s `subscribed` field."""
+  subscribed: Boolean
+
+  """Checks for equality with the object’s `confirmed` field."""
+  confirmed: Boolean
+
+  """Checks for equality with the object’s `role` field."""
+  role: Role
+}
+
+"""An input for mutations affecting `User`"""
+input UserInput {
+  id: UUID
+  createdAt: Datetime
+  token: String
+  emailAddress: String
+  password: String
+  subscribed: Boolean
+  confirmed: Boolean
+  role: Role
+}
+
+"""
+Represents an update to a `User`. Fields that are set will be updated.
+"""
+input UserPatch {
+  id: UUID
+  createdAt: Datetime
+  token: String
+  emailAddress: String
+  password: String
+  subscribed: Boolean
+  confirmed: Boolean
+  role: Role
+}
+
+"""A connection to a list of `User` values."""
+type UsersConnection {
+  """A list of `User` objects."""
+  nodes: [User]!
+
+  """
+  A list of edges which contains the `User` and cursor to aid in pagination.
+  """
+  edges: [UsersEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `User` you could get from the connection."""
+  totalCount: Int
+}
+
+"""A `User` edge in the connection."""
+type UsersEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `User` at the end of the edge."""
+  node: User
+}
+
+"""Methods to use when ordering `User`."""
+enum UsersOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  TOKEN_ASC
+  TOKEN_DESC
+  EMAIL_ADDRESS_ASC
+  EMAIL_ADDRESS_DESC
+  PASSWORD_ASC
+  PASSWORD_DESC
+  SUBSCRIBED_ASC
+  SUBSCRIBED_DESC
+  CONFIRMED_ASC
+  CONFIRMED_DESC
+  ROLE_ASC
+  ROLE_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
+"""
+scalar UUID

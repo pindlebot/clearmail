@@ -1,0 +1,8 @@
+{
+  "standard.enable": true,
+  "standard.workingDirectories": [
+    "app/src",
+    "server",
+    "serverless/clearmail-message"
+  ]
+}

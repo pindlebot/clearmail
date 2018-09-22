@@ -1,0 +1,166 @@
+
+enum Role {
+  ADMIN
+  USER
+  SESSION
+}
+
+enum MessageLabel {
+  SENT
+  INBOX
+}
+
+enum Sort {
+  ASC
+  DESC
+}
+
+scalar JSON
+
+scalar Any
+
+directive @auth on OBJECT 
+
+directive @default(value: Any) on FIELD_DEFINITION
+
+interface Node {
+  id: ID!
+}
+
+input UpdateUserInput {
+  id: ID!
+  emailAddress: String
+  subscribed: Boolean
+}
+
+input SendMessageInput {
+  destination: [String]
+  source: [String]
+  subject: String
+  html: String
+  text: String
+  thread: ID
+  snippet: String
+}
+
+type Mutation {
+  deleteThread(id: ID!): Message
+  sendMessage (
+    input: SendMessageInput!
+  ): Message
+  signinUser(
+    emailAddress: String!
+    password: String!
+  ): User
+  createUser(
+    emailAddress: String!
+    password: String!
+  ): User
+  emailInUse(emailAddress: String!): Boolean
+  resetPassword(emailAddress: String!): Boolean
+  updatePassword(password: String!): User
+  deleteUser(id: ID!): User
+  updateUser(input: UpdateUserInput!): User
+  deleteAttachment(id: ID!): Attachment
+}
+
+type Feed {
+  limit: Int
+  offset: Int
+  threads: [Thread]
+}
+
+type Query {
+  users: [User]
+  user: User
+  # message(id: ID!): Message
+  messages(sort: JSON): [Message]
+  thread(id: ID!, filter: JSON, sort: JSON): Thread
+  threads(cursor: String, limit: Int, filter: JSON): [Thread]
+  feed(limit: Int, offset: Int, filter: JSON, sort: JSON, query: String): Feed
+  # attachment(id: ID!): Attachment
+  # attachments: [Attachment]
+}
+
+type User @auth {
+  id: ID!
+  createdAt: String!
+  updatedAt: String!
+  token: String
+  sub: String
+  emailAddress: String
+  password: String
+  subscribed: Boolean @default(value: true)
+  confirmed: Boolean @default(value: false)
+  role: Role @default(value: "SESSION")
+  # messages: [Message]
+  # attachments: [Attachment]
+  # threads: [Thread]
+}
+
+type Attachment implements Node {
+  id: ID!
+  checksum: String!
+  objectKey: String!
+  file: String!
+  message: ID!
+  user: ID!
+  contentType: String
+  filename: String
+  size: Int
+  type: String
+  contentDisposition: String
+}
+
+type Thread {
+  id: ID!
+  user: User!
+  messages: [Message]
+  cursor: String
+  createdAt: String
+}
+
+#enum EntityType {
+#  DESTINATION
+#  SOURCE
+#}
+
+#type Entity {
+#  id: ID!
+#  name: String
+#  emailAddress: String
+#  entityType: EntityType!
+#}
+
+#type EntityConnection {
+#  message: Message
+#  entity: Entity
+#}
+
+type MessageContent implements Node {
+  id: ID!
+  content: String
+  messageId: ID
+}
+
+type Message implements Node {
+  id: ID!
+  thread: Thread
+  user: ID
+  createdAt: String
+  attachments: [Attachment]
+  source: JSON
+  destination: JSON
+  mail: JSON
+  receipt: JSON
+  messageId: String
+  replyTo: JSON
+  inReplyTo: String
+  subject: String
+  text: String
+  textAsHtml: String
+  html: String
+  labels: [MessageLabel]
+  snippet: String
+  content: MessageContent
+}
