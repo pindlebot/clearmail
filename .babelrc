@@ -1,8 +1,18 @@
 {
   "presets": [
-    "babel-preset-parcel"
+    ["@babel/preset-env", {
+      "targets": {
+        "chrome": "latest"
+      }
+    }],
+    "@babel/preset-react",
+    "@babel/preset-flow"
   ],
   "plugins": [
-    "babel-plugin-transform-class-properties"
+    ["@babel/plugin-transform-flow-strip-types", {}, "strip-types"],
+    ["@babel/plugin-transform-runtime", {}, "transform-runtime"],
+    ["@babel/plugin-proposal-object-rest-spread", {}, "rest-spread"],
+    ["@babel/plugin-proposal-class-properties", {}, "class-properties"],
+    ["@babel/plugin-proposal-optional-chaining", {}, "optional-chaining"]
   ]
 }

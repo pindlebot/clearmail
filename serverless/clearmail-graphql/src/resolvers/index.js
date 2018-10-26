@@ -145,11 +145,6 @@ const resolvers = {
   },
   User: {},
   Message: {
-    content: (message, _, { user }) => {
-      return client.query(`
-        SELECT * FROM messages_content WHERE message_id = '${message.id}'
-      `, { head: true })
-    },
     attachments: (message, _, { user }) => {
       return client.query(
         `SELECT * FROM attachments a WHERE a.message_id = '${message.id}'`

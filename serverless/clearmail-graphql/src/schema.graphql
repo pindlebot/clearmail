@@ -123,8 +123,6 @@ type Message implements Node {
   source: JSON
   destination: JSON
   messageId: String
-  replyTo: JSON
-  inReplyTo: String
   subject: String
   text: String
   html: String

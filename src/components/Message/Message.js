@@ -37,14 +37,9 @@ class MessageCard extends React.Component {
     let {
       text,
       source,
-      content: {
-        content
-      }
+      html
     } = message
-    let messageBody = text
-    if (content) {
-      content = atob(content)
-    }
+    let content = html ? window.atob(html) : text
 
     return (
       <Card className={classes.card}>

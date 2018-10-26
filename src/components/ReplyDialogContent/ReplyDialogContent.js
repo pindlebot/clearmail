@@ -36,15 +36,10 @@ const SEND_EMAIL = gql`
       createdAt
       source
       destination
-      replyTo
       subject
       text
       snippet
       labels
-      content {
-        id
-        content
-      }
       thread {
         id
       }
@@ -93,11 +88,8 @@ class ReplyDialogContent extends React.Component {
       const {
         subject,
         source,
-        content: {
-          content
-        }
       } = message
-      let html = window.atob(content) || message.text
+      let html = window.atob(message.html) || message.text
       console.log(html)
       let formattedDate = format(new Date(message.createdAt), 'ddd, MMM D, YYYY at h:mm')
       let formatted = `On ${formattedDate} &#60;${source[0].emailAddress}&#62; wrote:`
@@ -177,18 +169,12 @@ class ReplyDialogContent extends React.Component {
           text: text,
           subject,
           labels: ['SENT'],
-          replyTo: null,
           snippet: snippet,
           thread: {
             __typename: 'Thread',
             id: input.thread || uuid()
           },
-          attachments: [],
-          content: {
-            __typename: 'Content',
-            id: uuid(),
-            content: encoded
-          }
+          attachments: []
         }
       },
       update: (store, { data: { sendMessage } }) => {
@@ -291,9 +277,6 @@ class ReplyDialogContent extends React.Component {
               autoFocus
             />
             <div
-              style={{
-                
-              }}
               dangerouslySetInnerHTML={{ __html: this.state.html }}
             />
           </div>
@@ -306,7 +289,7 @@ class ReplyDialogContent extends React.Component {
   }
 }
 
-export default withStyles(dialogContentStyles)(props => (
+const Wrapper = props => (
   <Mutation mutation={SEND_EMAIL}>
     {mutate => {
       return (
@@ -314,4 +297,6 @@ export default withStyles(dialogContentStyles)(props => (
       )
     }}
   </Mutation>
-))
+)
+
+export default withStyles(dialogContentStyles)(Wrapper)
