@@ -19,10 +19,10 @@ export const FEED_QUERY = gql`
         id
         messages {
           id
+          messageId
           createdAt
           snippet
           source
-          messageId
           subject
           destination
           labels
@@ -43,6 +43,7 @@ export const THREAD_QUERY = gql`
       id
       messages {
         id
+        messageId
         snippet
         createdAt
         source

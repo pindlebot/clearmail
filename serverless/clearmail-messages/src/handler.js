@@ -73,7 +73,7 @@ const handleMessage = async (message) => {
     let source = JSON.stringify(
       decoded.from.value.map(({ address }) => ({ emailAddress: address }))
     )
-    let thread = user.thread || 'NULL'
+    let thread = `'${user.thread}'` || 'NULL'
     let data = await client.query(`
       INSERT into messages (
         user_id,

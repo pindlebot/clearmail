@@ -13,6 +13,8 @@ const send = async (parent, { input }, context) => {
   let source = JSON.stringify(
     input.source.map(emailAddress => ({ emailAddress }))
   )
+  MessageId = `<${MessageId}@email.amazonses.com>`
+
   let thread = input.thread ? `'${input.thread}'` : 'NULL'
   let data = await client.query(`
     INSERT into messages (

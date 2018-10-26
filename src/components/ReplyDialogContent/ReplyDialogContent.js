@@ -7,7 +7,8 @@ import {
   convertFromHTML
 } from 'draft-js'
 import { withStyles } from '@material-ui/core/styles'
-import ToggleButton, { ToggleButtonGroup } from '@material-ui/lab/ToggleButton'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import ListIcon from '@material-ui/icons/List'
 import FormatBoldIcon from '@material-ui/icons/FormatBold'
 import FormatItalicIcon from '@material-ui/icons/FormatItalic'
@@ -40,6 +41,10 @@ const SEND_EMAIL = gql`
       text
       snippet
       labels
+      html
+      attachments {
+        id
+      }
       thread {
         id
       }
@@ -158,6 +163,7 @@ class ReplyDialogContent extends React.Component {
         __typename: 'Mutation',
         sendMessage: {
           __typename: 'Message',
+          messageId: uuid(),
           id: uuid(),
           user: userId,
           destination: recipients.map(emailAddress => ({ emailAddress })),
