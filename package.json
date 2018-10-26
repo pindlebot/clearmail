@@ -1,22 +1,60 @@
 {
-  "name": "clearmail",
+  "name": "clearmail-app",
   "version": "0.0.1",
-  "main": "index.js",
   "repository": "https://github.com/unshift/clearmail.git",
   "author": "Ben <menubar@protonmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "UP_STAGE='' app/node_modules/.bin/parcel app/src/index.html --public-url /",
-    "build": "NODE_ENV=production UP_STAGE=/staging app/node_modules/.bin/parcel build app/src/index.html --public-url /staging/",
-    "start": "node server",
-    "clean": "app/node_modules/.bin/rimraf dist && app/node_modules/.bin/rimraf .cache",
-    "lint": "standard --fix server/**/*.js | snazzy"
+    "dev": "UP_STAGE='' parcel src/index.html --public-url /",
+    "build": "NODE_ENV=production UP_STAGE=/staging parcel build src/index.html --public-url /staging/",
+    "clean": "rimraf dist && rimraf .cache"
+  },
+  "dependencies": {
+    "@material-ui/core": "^1.4.2",
+    "@material-ui/icons": "^2.0.0",
+    "@material-ui/lab": "^1.0.0-alpha.8",
+    "apollo-boost": "^0.1.10",
+    "apollo-link-context": "^1.0.8",
+    "apollo-link-ws": "^1.0.8",
+    "bcryptjs": "^2.4.3",
+    "connected-react-router": "^4.4.1",
+    "date-fns": "^1.29.0",
+    "dotenv": "^6.0.0",
+    "draft-js": "^0.10.5",
+    "draft-js-export-html": "^1.2.0",
+    "gql": "^1.1.2",
+    "graphql": "^0.13.2",
+    "history": "^4.7.2",
+    "html-element-attributes": "^2.0.0",
+    "immutable": "^3.8.2",
+    "isomorphic-fetch": "^2.2.1",
+    "jsonwebtoken": "^8.3.0",
+    "lodash.pick": "^4.4.0",
+    "pg": "^7.4.3",
+    "prop-types": "^15.6.2",
+    "query-string": "^6.1.0",
+    "react": "^15.5.4 || ^16.0.0",
+    "react-apollo": "^2.1.9",
+    "react-dom": "^16.4.1",
+    "react-dropzone": "latest",
+    "react-redux": "^4.4.8 || ^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "redux": "^3.6.0 || ^4.0.0",
+    "subscriptions-transport-ws": "^0.9.0",
+    "with-async-component": "^0.0.8"
   },
   "devDependencies": {
-    "eslint": "^5.6.0",
-    "snazzy": "^8.0.0",
-    "standard": "^12.0.1",
-    "up-env": "^0.0.10"
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-parcel": "^0.0.11",
+    "eslint": "^5.2.0",
+    "node-sass": "^4.9.2",
+    "parcel-bundler": "^1.9.7",
+    "rimraf": "^2.6.2",
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1"
   },
-  "dependencies": {}
+  "standard": {
+    "parser": "babel-eslint"
+  }
 }

@@ -73,8 +73,6 @@ typings/
 .serverless
 
 .DS_Store
-.serverless
 .dump.rdb
 dist
 .cache
-serverless

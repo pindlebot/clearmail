@@ -1,0 +1,40 @@
+service: clearmail-messages
+
+custom:
+  deploymentBucket: 'global-deployment-bucket'
+  bucket: 'clearmail-prod'
+
+provider:
+  stage: dev
+  name: aws
+  runtime: nodejs8.10
+  region: us-east-1
+  deploymentBucket:
+    name: ${self:custom.deploymentBucket}
+  environment:
+    AWS_BUCKET: ${self:custom.bucket}
+    PGHOST: ${ssm:/clearmail/PGHOST}
+    PGUSER: postgres
+    PGDATABASE: clearmail
+    PGPASSWORD: ${ssm:/clearmail/PGPASSWORD~true}
+    PGPORT: 5432
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - sns:*
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - s3:*
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - dynamodb:*
+      Resource: "*"
+
+functions:
+  handler:
+    timeout: 30
+    handler: src/handler.handler
+    events:
+      - sns: clearmail-messages

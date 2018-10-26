@@ -3,47 +3,9 @@
   "regions": [
     "us-east-1"
   ],
+  "type": "static",
   "static": {
     "dir": "dist"
   },
-  "environment": {
-    "CLIENT_AUTH_ID": "${ssm:/clearmail/CLIENT_AUTH_ID}",
-    "CLIENT_SESSION_ID": "${ssm:/clearmail/CLIENT_SESSION_ID}",
-    "CLIENT_SESSION_SECRET": "${ssm:/clearmail/CLIENT_SESSION_SECRET}",
-    "PGHOST": "${ssm:/clearmail/PGHOST}",
-    "PGUSER": "postgres",
-    "PGDATABASE": "clearmail",
-    "PGPASSWORD": "${ssm:/clearmail/PGPASSWORD}",
-    "PGPORT": "5432",
-    "AWS_ACCOUNT_ID": "${ssm:/clearmail/AWS_ACCOUNT_ID}"
-  },
-  "hooks": {
-    "build": "yarn build",
-    "clean": "up-env restore"
-  },
-  "lambda": {
-    "policy": [
-      {
-        "Effect": "Allow",
-        "Resource": "*",
-        "Action": [
-          "s3:*"
-        ]
-      },
-      {
-        "Effect": "Allow",
-        "Resource": "*",
-        "Action": [
-          "ses:*"
-        ]
-      },
-      {
-        "Effect": "Allow",
-        "Resource": "*",
-        "Action": [
-          "sns:*"
-        ]
-      }
-    ]
-  }
+  "environment": {}
 }

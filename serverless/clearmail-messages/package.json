@@ -1,0 +1,14 @@
+{
+  "name": "letterpost-messages",
+  "version": "0.0.1",
+  "main": "handler.js",
+  "license": "MIT",
+  "dependencies": {
+    "lodash.camelcase": "^4.3.0",
+    "lodash.snakecase": "^4.1.1",
+    "mailparser": "^2.3.4",
+    "node-fetch": "^2.2.0",
+    "pg": "^7.4.3",
+    "postgres-tools": "^0.0.7"
+  }
+}

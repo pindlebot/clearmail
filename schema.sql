@@ -55,25 +55,31 @@ CREATE OR REPLACE FUNCTION insert_entities () RETURNS trigger AS $$
 BEGIN
   IF NEW.source IS NOT NULL THEN
     WITH x AS (
+      SELECT * FROM entities WHERE email_address = NEW.source
+    ),
+    y AS (
       INSERT INTO entities(
         user_id,
-        entity_type,
-        email_address
+        email_address,
+        entity_type
       )
-      VALUES(
-        NEW.user_id,
-        'SOURCE',
-        NEW.source
+      SELECT NEW.user_id, NEW.source, 'SOURCE'
+      WHERE NOT EXISTS (
+        SELECT id FROM x
       )
       RETURNING *
+    ),
+    z AS (
+      SELECT x.* FROM x
+      UNION
+      SELECT y.* FROM y
     )
     INSERT INTO messages_entities(
       message_id,
       entity_id
     )
-    SELECT NEW.id, id FROM x;
+    SELECT NEW.id, id FROM z;
   END IF;
-  NEW.source = NULL;
   RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
