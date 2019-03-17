@@ -1,0 +1,31 @@
+.layoutHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: none;
+  // border-bottom: 1px solid #F5F5F5;
+  
+  .search {
+    width: 300px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .brand {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    margin-left: 0.4em;
+  }
+  .link {
+    color: #123;
+    text-decoration: none;
+  }
+}
+
+
+

@@ -1,6 +1,7 @@
 import * as redux from 'redux'
 import { routerMiddleware, connectRouter } from 'connected-react-router'
 import { createBrowserHistory } from 'history'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 export const history = createBrowserHistory({ basename: process.env.UP_STAGE || '' })
 
@@ -147,12 +148,13 @@ export const reducer = (state = initialState, action) => {
 }
 
 export const rootReducer = redux.combineReducers({
-  root: reducer
+  root: reducer,
+  router: connectRouter(history)
 })
 
 export const store = redux.createStore(
-  connectRouter(history)(rootReducer),
-  redux.compose(
+  rootReducer,
+  composeWithDevTools(
     redux.applyMiddleware(
       routerMiddleware(history)
     )

@@ -1,0 +1,18 @@
+.thread {
+  display: flex;
+  flex-direction: column;
+  max-width: 720;
+  margin: 40px auto;
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .subject {
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+}

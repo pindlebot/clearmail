@@ -27,7 +27,7 @@ export default {
   },
   background: {
     backgroundColor: '#f5f7f9',
-    backgroundImage: pattern,
+    // backgroundImage: pattern,
     height: '100vh'
   },
   column: {

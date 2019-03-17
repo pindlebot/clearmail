@@ -1,5 +1,4 @@
 import React from 'react'
-import withAsync from './withAsync'
 import Spinner from './components/Spinner'
 
 const styles = {
@@ -29,10 +28,8 @@ LoadingOverlay.defaultProps = {
   loading: true
 }
 
-const withAsyncComponent = withAsync(LoadingOverlay)
-
-const Dashboard = withAsyncComponent(() => import('./containers/Dashboard'))
-const Login = withAsyncComponent(() => import('./containers/Login'))
+const Dashboard = React.lazy(() => import('./containers/Dashboard'))
+const Login = React.lazy(() => import('./containers/Login'))
 
 export default [{
   render: props => <Login {...props} />,

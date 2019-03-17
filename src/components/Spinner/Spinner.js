@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import classnames from 'classnames'
 
-const styles = () => ({
+const styles = {
   // '@global': {
   //  body: {
   //    backgroundColor: '#29b6f6'
@@ -51,27 +49,24 @@ const styles = () => ({
     animationDelay: '-0.16s'
   },
   bounce3: {}
-})
+}
 
 const Spinner = props => {
   const {
-    classes,
     fullPage
   } = props
-  const className = fullPage ? classes.fullPage : classes.icon
   return (
-    <div className={className}>
-      <div className={classes.spinner}>
-        <div className={classnames(classes.bounce, classes.bounce1)} />
-        <div className={classnames(classes.bounce, classes.bounce2)} />
-        <div className={classnames(classes.bounce, classes.bounce3)} />
+    <div style={{}}>
+      <div style={styles.spinner}>
+        <div style={{ ...styles.bounce, ...classes.bounce1}} />
+        <div style={{ ...styles.bounce, ...classes.bounce2}} />
+        <div style={{ ...styles.bounce, ...classes.bounce3}} />
       </div>
     </div>
   )
 }
 
 Spinner.propTypes = {
-  classes: PropTypes.object.isRequired,
   fullPage: PropTypes.bool
 }
 
@@ -79,4 +74,4 @@ Spinner.defaultProps = {
   fullPage: true
 }
 
-export default withStyles(styles)(Spinner)
+export default Spinner

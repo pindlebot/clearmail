@@ -1,13 +1,20 @@
 import React from 'react'
-import Layout from '../../components/Layout'
-import { withStyles } from '@material-ui/core/styles'
+
 import { Query, Mutation } from 'react-apollo'
+import { withRouter } from 'react-router-dom'
+import { withApollo, compose } from 'react-apollo'
+import { connect } from 'react-redux'
+import { push } from 'connected-react-router'
 import gql from 'graphql-tag'
+
 import MessagesTable from '../../components/MessagesTable'
 import { USER_QUERY, THREAD_QUERY, FEED_QUERY } from '../../graphql/queries'
 import { DELETE_THREAD } from '../../graphql/mutations'
 import Thread from '../../components/Thread'
 import ReplyDialog from '../../components/ReplyDialog'
+import './styles.scss'
+import { setLoadingState } from '../../lib/redux'
+import Layout from '../../components/Layout'
 
 class Dashboard extends React.Component {
   state = {
@@ -42,28 +49,27 @@ class Dashboard extends React.Component {
   }
 
   render () {
-    const { classes, ...other } = this.props
     const {
       match: { params }
     } = this.props
     const { dialog } = this.state
     return (
-      <Layout {...other}>
+      <Layout {...this.props}>
         <ReplyDialog
-          {...other}
+          {...this.props}
           dialog={dialog}
           handleClose={this.handleDialogClose}
         />
-        <div className={classes.main}>
+        <div className={'main'}>
           {params.id
             ? <Thread
-              {...other}
+              {...this.props}
               handleDialogClose={this.handleDialogClose}
               handleReplyClick={this.handleReplyClick}
               dialog={dialog}
             />
             : <MessagesTable
-              {...other}
+              {...this.props}
               handleDialogClose={this.handleDialogClose}
               handleReplyClick={this.handleReplyClick}
               dialog={dialog}
@@ -72,14 +78,6 @@ class Dashboard extends React.Component {
         </div>
       </Layout>
     )
-  }
-}
-
-const styles = {
-  main: {
-    maxWidth: '960px',
-    boxSizing: 'border-box',
-    margin: '1em auto'
   }
 }
 
@@ -105,7 +103,6 @@ class DashboardWrapper extends React.Component {
     const filter = {
       labels: app.filter
     }
-    console.log(this.props)
     return (
       <Query
         query={
@@ -171,7 +168,30 @@ class DashboardWrapper extends React.Component {
   }
 }
 
-export default withStyles(styles)(props => (
+export default compose(
+  connect(
+    state => ({ app: state.root }),
+    dispatch => ({
+      setLoadingState: loading => dispatch(setLoadingState(loading)),
+      redirect: pathname => dispatch(push(pathname)),
+      setCursor: cursor => dispatch({
+        type: 'SET_CURSOR',
+        payload: cursor
+      }),
+      setLimit: limit => dispatch({
+        type: 'SET_LIMIT',
+        payload: limit
+      }),
+      setQuery: ({ query, filter }) => dispatch({
+        type: 'SET_QUERY',
+        payload: {
+          query,
+          filter
+        }
+      })
+    })
+  )
+)(props => (
   <Query query={USER_QUERY}>
     {user => {
       if (user.loading) return false

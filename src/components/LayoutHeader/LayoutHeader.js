@@ -1,19 +1,15 @@
 /* eslint-disable react/no-danger */
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
 import LayoutHeaderMenu from '../LayoutHeaderMenu'
 import config from '../../lib/config'
-import Button from '@material-ui/core/Button'
-import DocumentIcon from '../DocumentIcon'
 import { compose } from 'react-apollo'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { Link } from 'react-router-dom'
 import SearchMessages from '../SearchMessages'
+import AntLayout from 'antd/lib/layout'
+import Button from 'antd/lib/button'
+import './styles.scss'
 
 const styleSheet = {
   root: {
@@ -46,8 +42,6 @@ const LandingPageMenu = props => {
         Login
       </Button>
       <Button
-        variant={'raised'}
-        color={'primary'}
         onClick={props.login}
       >
         Create Account
@@ -64,38 +58,24 @@ const LayoutHeader = props => {
   const { classes, ...other } = props
 
   return (
-    <header>
-      <AppBar position='static' className={classes.root}>
-        <Toolbar>
-          <IconButton
-            onClick={() => {}}
-            color='inherit'
-            aria-label='Menu'
-          >
-            <DocumentIcon background={'rgba(255,255,255,0.1)'} fill={'rgba(0,0,0,0.8)'} />
-          </IconButton>
-          <Typography
-            type='title'
-            color='inherit'
-            className={classes.brand}
-          >
-            <Link to='/' className={classes.link}>
-              {config.APP_NAME}
-            </Link>
-          </Typography>
-          <SearchMessages
-            width={window.innerWidth}
-            handleSearch={props.handleSearch}
-            handleChange={props.handleChange}
-            query={props.query}
-          />
-          {props.landing
-            ? <LandingPageMenu {...other} />
-            : <LayoutHeaderMenu {...other} />
-          }
-        </Toolbar>
-      </AppBar>
-    </header>
+    <AntLayout.Header className={'layoutHeader'}>
+      <div className={'brand'}>
+        <Link to='/' className={'link'}>
+          {config.APP_NAME}
+        </Link>
+      </div>
+      <div className={'search'}>
+        <SearchMessages
+          width={window.innerWidth}
+          handleSearch={props.handleSearch}
+          handleChange={props.handleChange}
+          query={props.query}
+        />
+      </div>
+      {props.landing
+        ? <LandingPageMenu {...other} />
+        : <LayoutHeaderMenu {...other} />}
+    </AntLayout.Header>
   )
 }
 
@@ -107,5 +87,4 @@ export default compose(
       account: () => dispatch(push('/dashboard'))
     })
   ),
-  withStyles(styleSheet)
 )(LayoutHeader)

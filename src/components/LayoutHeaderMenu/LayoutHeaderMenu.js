@@ -1,27 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import IconButton from '@material-ui/core/IconButton'
+import Button from 'antd/lib/button'
+import Menu from 'antd/lib/menu'
+import Dropdown from 'antd/lib/dropdown'
 import ProfileAvatar from '../ProfileAvatar'
-import { withStyles } from '@material-ui/core'
-
-const styles = {
-  menu: {
-    width: '300'
-  },
-  item: {
-    padding: '16px',
-    boxShadow: 'none',
-    backgroundColor: '#fff'
-  },
-  root: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
-  }
-}
+import './styles.scss'
 
 class AppBarMenu extends React.Component {
   state = {
@@ -42,18 +25,18 @@ class AppBarMenu extends React.Component {
     return [
       this.props.logged
         ? (
-          <MenuItem
-            className={classes.item}
+          <Menu.Item
+            className={'item'}
             onClick={this.props.signout}
             key={0}
           >
             Logout
-          </MenuItem>
+          </Menu.Item>
         ) : (
-          <MenuItem
-            className={classes.item}
+          <Menu.Item
+            className={'item'}
             onClick={this.props.login}
-            key={1}>Login</MenuItem>
+            key={1}>Login</Menu.Item>
         )
     ]
   }
@@ -61,31 +44,21 @@ class AppBarMenu extends React.Component {
   render () {
     const { open } = this.state
     const { landing, classes } = this.props
-
+    const menu = (
+      <Menu>
+        {this.renderMenu()}
+      </Menu>
+    )
     return (
-      <div className={classes.root}>
+      <div className={'layoutHeaderMenu'}>
         <ProfileAvatar />
-        <IconButton
-          aria-owns={this.state.open ? 'simple-menu' : null}
-          aria-haspopup='true'
-          onClick={this.handleClick}
-        >
-          <MoreVertIcon />
-        </IconButton>
-        <Menu
-          id='simple-menu'
-          open={open}
-          onClose={this.handleClose}
-          anchorEl={this.state.anchorEl}
-          className={classes.menu}
-          PaperProps={{
-            classes: {
-              root: classes.menu
-            }
-          }}
-        >
-          {this.renderMenu()}
-        </Menu>
+        <Dropdown overlay={menu} trigger={['click']}>
+          <Button
+            onClick={this.handleClick}
+            icon={'more'}
+          >
+          </Button>
+        </Dropdown>
       </div>
     )
   }
@@ -102,4 +75,4 @@ AppBarMenu.defaultProps = {
   landing: false
 }
 
-export default withStyles(styles)(AppBarMenu)
+export default AppBarMenu

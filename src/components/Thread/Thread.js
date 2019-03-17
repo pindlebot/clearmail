@@ -1,11 +1,8 @@
 import React from 'react'
 import MessageCard from '../Message'
-import { withStyles } from '@material-ui/core/styles'
-import { Typography } from '@material-ui/core'
-import Button from '@material-ui/core/Button'
-import Chip from '@material-ui/core/Chip'
-import Avatar from '@material-ui/core/Avatar'
-
+import Button from 'antd/lib/button'
+import Tag from 'antd/lib/tag'
+import './styles.scss'
 class Thread extends React.Component {
   static defaultProps = {
     thread: {
@@ -26,10 +23,6 @@ class Thread extends React.Component {
     })
   }
 
-  componentDidMount () {
-    this.props.setLoadingState(false)
-  }
-
   render () {
     const { classes, ...rest } = this.props
     const { thread: { messages } } = this.props
@@ -38,15 +31,14 @@ class Thread extends React.Component {
     }
     let [message] = messages
     return (
-      <div className={classes.container}>
-        <div className={classes.row}>
-          <Typography variant={'title'} gutterBottom>
+      <div className={'thread'}>
+        <div className={'row'}>
+          <div className={'subject'}>
             {message.subject}
-          </Typography>
-          {message.labels.map((label, i) => <Chip
-            label={label}
+          </div>
+          {message.labels.map((label, i) => <Tag
+            children={label}
             onClick={() => {}}
-            onDelete={() => {}}
             key={i}
           />)}
         </div>
@@ -58,7 +50,7 @@ class Thread extends React.Component {
           />
         )
         )}
-        <div className={classes.row}>
+        <div className={'row'}>
           <Button onClick={this.props.handleReplyClick}>
             Reply
           </Button>
@@ -68,23 +60,4 @@ class Thread extends React.Component {
   }
 }
 
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    maxWidth: 720,
-    margin: '40px auto',
-    [theme.breakpoints.down('sm')]: {
-      margin: '40px 5%',
-    }
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10
-  }
-})
-
-export default withStyles(styles)(Thread)
+export default Thread

@@ -1,33 +1,20 @@
 import React from 'react'
-import Snackbar from '@material-ui/core/Snackbar'
 import { connect } from 'react-redux'
+import message from 'antd/lib/message'
 
 class GraphQLErrorsSnackbar extends React.Component {
-  render () {
-    const { snackbar, graphQLErrors } = this.props.root
+  componentDidUpdate () {
+    const { snackbar, graphQLErrors } = this.props
     if (!graphQLErrors || !graphQLErrors.length) return false
-    return graphQLErrors.map((error, i) => (
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left'
-        }}
-        open={snackbar.show}
-        autoHideDuration={6000}
-        onClose={this.props.handleClose}
-        ContentProps={{
-          'aria-describedby': 'message-id'
-        }}
-        key={i}
-        message={<span id='message-id'>{error.message}</span>}
-      />
-    ))
+    graphQLErrors.forEach(error => {
+      message.error(error.message)
+    }) 
+  }
+  render () {
+    return null
   }
 }
 
 export default connect(
-  state => state,
-  dispatch => ({
-    handleClose: () => dispatch({ type: 'CLEAR_SNACKBAR' })
-  })
+  state => state.root
 )(GraphQLErrorsSnackbar)

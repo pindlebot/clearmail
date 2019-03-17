@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import Layout from 'antd/lib/layout'
 
 const styles = {
   root: {
@@ -51,37 +51,36 @@ const right = [
 
 class Footer extends React.Component {
   render () {
-    const { classes } = this.props
     return (
-      <footer className={classes.root}>
-        <div className={classes.footer}>
-          <div className={classes.inner}>
-            <ul className={classes.column}>
+      <Layout.Footer style={styles.root}>
+        <div style={styles.footer}>
+          <div style={styles.inner}>
+            <ul className={styles.column}>
               {left.map(item =>
                 (<li
-                  className={classes.listItem}
+                  style={styles.listItem}
                   key={`li_${item.link}`}
                 >
                   <a
                     key={`link_${item.link}`}
                     href={item.link}
-                    className={classes.link}
+                    style={styles.link}
                   >
                     {item.text}
                   </a>
                 </li>)
               )}
             </ul>
-            <ul className={classes.column}>
+            <ul style={styles.column}>
               {right.map(item =>
                 (<li
-                  className={classes.listItem}
+                  style={styles.listItem}
                   key={`li_${item.link}`}
                 >
                   <a
                     key={`link_${item.link}`}
                     href={item.link}
-                    className={classes.link}
+                    style={styles.link}
                   >
                     {item.text}
                   </a>
@@ -91,9 +90,9 @@ class Footer extends React.Component {
           </div>
           <div />
         </div>
-      </footer>
+      </Layout.Footer>
     )
   }
 }
 
-export default withStyles(styles)(Footer)
+export default Footer

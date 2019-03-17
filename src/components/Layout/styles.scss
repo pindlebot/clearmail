@@ -1,0 +1,53 @@
+.layoutContainer {
+  .sidebar {
+    width: 200px;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+
+    .ant-menu-inline {
+      border-right: none;
+    }
+  
+    .ant-btn {
+      margin-bottom: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 5px;
+    }
+  
+    .icon {
+      width: 50px;
+      height: 50px;
+      background-color: #fafafa;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+
+      svg {
+        display: inline-block;
+      }
+    }
+  }
+}
+ 
+.layoutRow {
+  display: flex;
+}
+
+.ant-layout {
+  background: #fff;
+}
+
+.layout {
+  background-color: #fafafa;
+  min-height: calc(100vh - 65px);
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px;
+  border-top-left-radius: 50px;
+}

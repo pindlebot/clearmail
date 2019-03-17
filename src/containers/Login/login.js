@@ -1,24 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withApollo, compose, Mutation, Query } from 'react-apollo'
-import Button from '@material-ui/core/Button'
+import { connect } from 'react-redux'
+import Button from 'antd/lib/button'
 import mutations from './mutations'
-import Typography from '@material-ui/core/Typography'
 import PasswordField from '../../components/PasswordField'
 import Spinner from '../../components/Spinner'
-import { withStyles } from '@material-ui/core/styles'
 import SignInEmailTextField from '../../components/SignInEmailTextField'
 import { withRouter } from 'react-router-dom'
 import styles from './styles'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Grid from '@material-ui/core/Grid'
+import Tabs from 'antd/lib/tabs'
 import { RESET_PASSWORD } from '../../graphql/mutations'
 import { USER_QUERY } from '../../graphql/queries'
-import { connect } from 'react-redux'
 import { setGraphQLErrors } from '../../lib/redux'
 import { push } from 'connected-react-router'
 import { parse } from 'query-string'
+import './styles.scss'
+import { Row, Col } from 'antd';
 
 class Signin extends React.Component {
   static propTypes = {
@@ -30,11 +28,11 @@ class Signin extends React.Component {
   state = {
     emailAddress: '',
     password: '',
-    tab: 0,
+    tab: '0',
     passwordResetSent: false
   }
 
-  handleTabChange = ({ currentTarget }, value) => {
+  handleTabChange = (value) => {
     this.setState({ tab: value })
   }
 
@@ -44,7 +42,7 @@ class Signin extends React.Component {
     if (user && user.role === 'USER') {
       this.redirect(`/dashboard`)
     } else {
-      this.props.setLoadingState(false)
+
     }
   }
 
@@ -58,6 +56,7 @@ class Signin extends React.Component {
         .catch(err => this.props.setGraphQLErrors(err.graphQLErrors))
     })
   }
+
 
   redirect = (pathname) => {
     const params = parse(this.props.location.search)
@@ -93,69 +92,71 @@ class Signin extends React.Component {
 
   render () {
     const { emailAddress, password, tab, passwordResetSent } = this.state
-    const { classes, user: { data: { user } } } = this.props
-    const login = tab === 0
+    const { user: { data: { user } } } = this.props
+    const login = tab === '0'
     return (
       <Mutation mutation={RESET_PASSWORD}>
         {mutate => {
           return (
-            <div className={classes.background}>
-              <div className={classes.column}>
+            <div className={'loginContainer'}>
+              <div className={'column'}>
                 <div>
-                  <Typography align='center' variant='headline' className={classes.title}>
+                  <div className={'title'}>
                     ClearMail
-                  </Typography>
-                  <form className={classes.form}>
+                  </div>
+                  <form className={'form'}>
                     <Tabs
-                      value={this.state.tab}
+                      activeKey={this.state.tab}
                       onChange={this.handleTabChange}
                     >
-                      <Tab label={'Login/Create Account'} />
-                      <Tab label={'Reset Password'} />
+                      <Tabs.TabPane tab={'Login/Create Account'} key={0} />
+                      <Tabs.TabPane tab={'Reset Password'} key={1} />
                     </Tabs>
-                    <Grid container direction={'column'} spacing={24} style={{ padding: '30px 40px 30px 40px' }}>
+                    <Col className={'loginBody'}>
                       {passwordResetSent && (
-                        <Grid item>
+                        <Row>
                           Password reset email sent!
-                        </Grid>
+                        </Row>
                       )}
-                      <Grid item>
+                      <Row gutter={8}>
+                        <Col>
                         <SignInEmailTextField
                           value={emailAddress}
                           onChange={e => this.setState({ emailAddress: e.target.value })}
                         />
-                      </Grid>
-                      {login && (<Grid item>
-                        <PasswordField
-                          value={password}
-                          onChange={e => this.setState({ password: e.target.value })}
-                        />
-                      </Grid>)}
-                      <Grid item container xs={12} justify={'space-between'} style={{marginTop: 20}}>
+                        </Col>
+                      </Row>
+                      {login && (
+                        <Row gutter={8}>
+                          <Col>
+                            <PasswordField
+                              value={password}
+                              onChange={e => this.setState({ password: e.target.value })}
+                            />
+                          </Col>
+                        </Row>
+                      )}
+                      <Row>
                         {login ? (
-                          <React.Fragment>
-                            <Grid item xs={4}>
-                              <Button onClick={this.signin}>
-                                      Sign in {this.state.loading ? <Spinner /> : ''}
-                              </Button>
-                            </Grid>
-                            <Grid container item xs={6} justify={'flex-end'}>
-                              <Button
-                                variant={'raised'}
-                                onClick={this.createAccount}
-                                color={'primary'}
-                              >
-                                Create account
-                              </Button>
-                            </Grid>
-                          </React.Fragment>
+                          <div className={'apart'}>
+                            <Button onClick={this.signin}>
+                              Sign in {this.state.loading ? <Spinner /> : ''}
+                            </Button>
+                            <Button
+                              variant={'raised'}
+                              onClick={this.createAccount}
+                              color={'primary'}
+                            >
+                              Create
+                            </Button>
+                          </div>
                         ) : (
-                          <Grid container item xs={12} justify={'flex-end'}>
+                          <Row>
                             <Button onClick={this.resetPassword(mutate)}>Reset</Button>
-                          </Grid>
+                          </Row>
                         )}
-                      </Grid>
-                    </Grid>
+                      </Row>
+                    </Col>
                   </form>
                 </div>
               </div>
@@ -178,7 +179,6 @@ export default compose(
       redirect: (pathname) => dispatch(push(pathname))
     })
   ),
-  withStyles(styles),
   withRouter
 )(props => (
   <Query query={USER_QUERY}>
