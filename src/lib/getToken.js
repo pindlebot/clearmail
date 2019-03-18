@@ -21,7 +21,7 @@ function testToken ({ client }) {
   })
 }
 
-export default async function auth ({ client }) {
+export default async function ({ client }) {
   let parsed = parse(window.location.search)
   if (parsed.nonce) {
     window.localStorage.setItem('token', parsed.nonce)
@@ -51,7 +51,7 @@ export default async function auth ({ client }) {
     body: JSON.stringify(payload)
   })
   const json = await resp.json()
-
+  console.log(json)
   if (json.token !== payload.token) {
     window.localStorage.setItem('token', json.token)
   }

@@ -7,13 +7,13 @@ const send = async (parent, { input }, context) => {
     .catch(err => {
       throw err
     })
-  let destination = JSON.stringify(
+  const destination = JSON.stringify(
     input.destination.map(emailAddress => ({ emailAddress }))
   )
-  let source = JSON.stringify(
+  const source = JSON.stringify(
     input.source.map(emailAddress => ({ emailAddress }))
   )
-  MessageId = `<${MessageId}@email.amazonses.com>`
+  const messageId = `<${MessageId}@email.amazonses.com>`
 
   let thread = input.thread ? `'${input.thread}'` : 'NULL'
   let data = await client.query(`
@@ -35,7 +35,7 @@ const send = async (parent, { input }, context) => {
       '${input.text}',
       '${input.html}',
       '${input.snippet}',
-      '${MessageId}',
+      '${messageId}',
       ${thread},
       '{SENT}'::label[],
       '${destination}'::jsonb,
@@ -43,11 +43,12 @@ const send = async (parent, { input }, context) => {
     )
     RETURNING *
   `, { head: true })
-
+  
   let { userId, threadId, ...rest } = data
   return {
     user: userId,
     thread: threadId,
+    messageId,
     ...rest
   }
 }

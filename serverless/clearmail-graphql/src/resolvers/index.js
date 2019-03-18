@@ -118,6 +118,16 @@ const resolvers = {
         snakeCase: true
       })
     },
+    deleteMessage: (_, args, context) => {
+      return client.query(`
+        DELETE FROM messages
+        WHERE id = '${args.id}'
+        RETURNING *
+      `, {
+        head: true,
+        snakeCase: true
+      })
+    }, 
     updatePassword: (_, { password }, { user }) => User.updatePassword({ user, password }),
     resetPassword: (_, { emailAddress }, { user }) => User.resetPassword({ user, emailAddress }),
     emailInUse: (_, { emailAddress }, { user }) => User.emailInUse({ user, emailAddress }),

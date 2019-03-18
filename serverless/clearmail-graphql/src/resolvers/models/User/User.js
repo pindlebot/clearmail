@@ -33,7 +33,7 @@ async function create ({ id, emailAddress, password }) {
   })
   if (user) {
     try {
-      await ses.VerifyEmailIdentity({
+      await ses.verifyEmailIdentity({
         EmailAddress: emailAddress
       }).promise()
     } catch (err) {

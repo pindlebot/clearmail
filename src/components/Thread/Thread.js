@@ -16,7 +16,7 @@ class Thread extends React.Component {
       optimisticResponse: {
         __typename: 'Mutation',
         deleteThread: {
-          __typename: 'Message',
+          __typename: 'Thread',
           id: id
         }
       }

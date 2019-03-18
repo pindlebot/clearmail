@@ -9,7 +9,7 @@ import gql from 'graphql-tag'
 
 import MessagesTable from '../../components/MessagesTable'
 import { USER_QUERY, THREAD_QUERY, FEED_QUERY } from '../../graphql/queries'
-import { DELETE_THREAD } from '../../graphql/mutations'
+import { DELETE_THREAD, DELETE_MESSAGE } from '../../graphql/mutations'
 import Thread from '../../components/Thread'
 import ReplyDialog from '../../components/ReplyDialog'
 import './styles.scss'
@@ -82,13 +82,9 @@ class Dashboard extends React.Component {
 }
 
 class DashboardWrapper extends React.Component {
-  componentDidMount () {
+  componentDidUpdate () {
     const { user } = this.props
-    if (
-      user &&
-      !user.loading &&
-      user.data.user.role !== 'USER'
-    ) {
+    if (!user.data.user) {
       this.props.redirect('/')
     }
   }
@@ -131,33 +127,40 @@ class DashboardWrapper extends React.Component {
             <Mutation mutation={DELETE_THREAD}>
               {deleteThread => {
                 return (
-                  <Dashboard
-                    {...this.props}
-                    query={query}
-                    feed={query.data.feed || undefined}
-                    thread={query.data.thread || undefined}
-                    deleteThread={deleteThread}
-                    fetchMore={() => {
-                      query.fetchMore({
-                        variables: {
-                          ...query.variables,
-                          offset: query.data.feed.offset + query.data.feed.limit
-                        },
-                        updateQuery: (prev, { fetchMoreResult }) => {
-                          if (!fetchMoreResult) return prev
-                            
-                          return {
-                            ...prev,
-                            feed: {
-                              ...prev.feed,
-                              ...fetchMoreResult.feed,
-                              threads: prev.feed.threads.concat(fetchMoreResult.feed.threads)
-                            }
-                          }
-                        }
-                      })
+                  <Mutation mutation={DELETE_MESSAGE}>
+                    {deleteMessage => {
+                      return (
+                        <Dashboard
+                          {...this.props}
+                          query={query}
+                          feed={query.data.feed || undefined}
+                          thread={query.data.thread || undefined}
+                          deleteThread={deleteThread}
+                          deleteMessage={deleteMessage}
+                          fetchMore={() => {
+                            query.fetchMore({
+                              variables: {
+                                ...query.variables,
+                                offset: query.data.feed.offset + query.data.feed.limit
+                              },
+                              updateQuery: (prev, { fetchMoreResult }) => {
+                                if (!fetchMoreResult) return prev
+                                  
+                                return {
+                                  ...prev,
+                                  feed: {
+                                    ...prev.feed,
+                                    ...fetchMoreResult.feed,
+                                    threads: prev.feed.threads.concat(fetchMoreResult.feed.threads)
+                                  }
+                                }
+                              }
+                            })
+                          }}
+                        />
+                      )
                     }}
-                  />
+                  </Mutation>
                 )
               }}
             </Mutation>

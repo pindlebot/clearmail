@@ -7,6 +7,7 @@ import gql from 'graphql-tag'
 import { EditorState } from 'draft-js'
 import { THREAD_QUERY, FEED_QUERY } from '../../graphql/queries'
 import uuid from 'uuid/v4'
+import { RichUtils } from 'draft-js'
 
 const SEND_EMAIL = gql`
   mutation($input: SendMessageInput!) {
@@ -20,6 +21,7 @@ const SEND_EMAIL = gql`
       snippet
       labels
       html
+      messageId
       attachments {
         id
       }
@@ -46,8 +48,14 @@ class ReplyDialog extends React.Component {
 
   update = data => this.setState(data)
 
-  handleAlignment = alignment => {
-    this.setState({ alignment })
+  handleAlignment = evt => {
+    console.log('handleAlignment', evt)
+    this.onChange(
+      RichUtils.toggleInlineStyle(
+        this.state.editorState,
+        evt.target.value
+      )
+    )
   }
 
   handleCancel = () => {
@@ -98,7 +106,7 @@ class ReplyDialog extends React.Component {
         __typename: 'Mutation',
         sendMessage: {
           __typename: 'Message',
-          // messageId: uuid(),
+          messageId: uuid(),
           id: uuid(),
           user: userId,
           destination: recipients.map(emailAddress => ({ emailAddress })),
@@ -151,13 +159,15 @@ class ReplyDialog extends React.Component {
     })
   }
   render () {
+    const inlineStyles = this.state.editorState.getCurrentInlineStyle()
     return (
       <Modal
-        title="Basic Modal"
+        title={'Compose'}
         visible={typeof this.props.dialog !== 'undefined'}
         onOk={this.sendEmail}
         onCancel={this.handleCancel}
         okText={'Send'}
+        width={700}
       >
         <ReplyDialogContent
           {...this.props}
@@ -165,7 +175,7 @@ class ReplyDialog extends React.Component {
           update={this.update}
           sendEmail={this.sendEmail}
           onChange={this.onChange}
-          alignment={this.state.alignment}
+          alignment={inlineStyles}
           handleAlignment={this.handleAlignment}
         />
       </Modal>

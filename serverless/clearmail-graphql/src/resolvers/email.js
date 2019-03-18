@@ -1,21 +1,19 @@
-const { createNonce } = require('./util')
 const AWS = require('aws-sdk')
-const { SES_TOPIC_ARN, AWS_REGION, AWS_ACCOUNT_ID } = process.env
+const { AWS_REGION, AWS_ACCOUNT_ID } = process.env
 
 const sns = new AWS.SNS({ region: AWS_REGION })
 const ses = new AWS.SES({ region: AWS_REGION })
 
 const sendUserConfirmationEmail = async (user) => {
-  const nonce = await createNonce(user)
   return sns.publish({
     Message: JSON.stringify({
       emailAddress: user.emailAddress,
       variables: {
-        href: nonce
+        href: 'http://clearmail.co'
       },
       templateType: 'confirmation'
     }),
-    TopicArn: SES_TOPIC_ARN
+    TopicArn: `arn:aws:sns:us-east-1:${AWS_ACCOUNT_ID}:clearmail-email`
   }).promise()
 }
 
@@ -28,7 +26,7 @@ const sendOrderConfirmationEmail = (user) => {
       },
       templateType: 'order'
     }),
-    TopicArn: SES_TOPIC_ARN
+    TopicArn:`arn:aws:sns:us-east-1:${AWS_ACCOUNT_ID}:clearmail-email`
   }).promise()
 }
 

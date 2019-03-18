@@ -58,9 +58,9 @@ const Spinner = props => {
   return (
     <div style={{}}>
       <div style={styles.spinner}>
-        <div style={{ ...styles.bounce, ...classes.bounce1}} />
-        <div style={{ ...styles.bounce, ...classes.bounce2}} />
-        <div style={{ ...styles.bounce, ...classes.bounce3}} />
+        <div style={{ ...styles.bounce, ...styles.bounce1}} />
+        <div style={{ ...styles.bounce, ...styles.bounce2}} />
+        <div style={{ ...styles.bounce, ...styles.bounce3}} />
       </div>
     </div>
   )

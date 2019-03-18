@@ -80,12 +80,13 @@ class MessagesTable extends React.Component {
       classes,
       app: {
         limit
-      }
+      },
+      query
     } = this.props
     const { order, orderBy, selected, page } = this.state
     let threads = (feed.threads || []).filter(thread => thread.messages.length)
     const emptyRows = limit - Math.min(limit, threads.length - page * limit)
-
+    const labels = query.variables.filter.labels
     const columns = [{
       title: 'sender',
       dataIndex: 'sender',
@@ -109,12 +110,13 @@ class MessagesTable extends React.Component {
           selected={selected}
           client={client}
           handleReplyClick={this.props.handleReplyClick}
-          deleteThread={this.props.deleteThread}
+          deleteMessage={this.props.deleteMessage}
           feed={this.props.feed}
           query={this.props.query}
         />
         <div className={'tableWrapper'}>
           <Table 
+            showHeader={false}
             className={'table'}
             selectedRowKeys={this.state.selected}
             rowSelection={{
@@ -129,7 +131,9 @@ class MessagesTable extends React.Component {
                   let message = messages[0]
                   return {
                     key: id,
-                    sender: message.source[0].emailAddress,
+                    sender: labels[0] === 'SENT'
+                      ? `To: ${message.destination[0].emailAddress}`
+                      : message.source[0].emailAddress,
                     subject: message.subject,
                     date: formatDateString(message.createdAt) 
                   }

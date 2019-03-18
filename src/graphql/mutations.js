@@ -8,6 +8,14 @@ export const DELETE_THREAD = gql`
   }
 `
 
+export const DELETE_MESSAGE = gql`
+  mutation($id: ID!) {
+    deleteMessage(id: $id) {
+      id
+    }
+  }
+`
+
 export const RESET_PASSWORD = gql`
   mutation($emailAddress: String!) {
     resetPassword(emailAddress: $emailAddress)

@@ -4,6 +4,7 @@ import Button from 'antd/lib/button'
 import './styles.scss'
 import Card from 'antd/lib/card'
 import Icon from 'antd/lib/icon'
+import { THREAD_QUERY } from '../../graphql/queries'
 
 const formatDateString = isoDate => {
   return format(new Date(isoDate), 'MMM Mo, YYYY, h:mm A')
@@ -12,20 +13,32 @@ const formatDateString = isoDate => {
 class MessageCard extends React.Component {
   handleDelete = async () => {
     let { message: { id } } = this.props
-    await this.props.deleteThread({
+    await this.props.deleteMessage({
       variables: { id },
       optimisticResponse: {
         __typename: 'Mutation',
-        deleteThread: {
-          __typename: 'Thread',
+        deleteMessage: {
+          __typename: 'Message',
           id: id
         }
+      },
+      update:(store, { data: { deleteMessage }}) => {
+        
+        store.writeQuery({
+          query: THREAD_QUERY,
+          variables: this.props.query.variables,
+          data: {
+            thread: {
+              ...this.props.thread,
+              messages: this.props.thread.messages.filter(({ id }) => deleteMessage.id !== id)
+            }
+          }
+        })
       }
     })
   }
 
   render () {
-    // formatDateString(message.createdAt)
     const { message } = this.props
     let {
       text,

@@ -21,6 +21,7 @@ async function parseMail (key) {
     console.log(err)
     return {}
   }
+  decoded.html = decoded.html || decoded.textAsHtml || decoded.text
   return decoded
 }
 

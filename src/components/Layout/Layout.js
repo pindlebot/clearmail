@@ -38,10 +38,7 @@ class Layout extends Component {
 
   signout = async () => {
     window.localStorage.removeItem('token')
-    getToken(this.props)
-      .then(() => {
-        this.props.redirect('/login')
-      })
+    this.props.push('/')
   }
 
   handleSearch = ({ query }) => {
@@ -81,6 +78,7 @@ class Layout extends Component {
             <Menu selectedKeys={query.variables.filter.labels} style={{width: '100%', marginTop: '60px'}} mode={'inline'} onClick={this.onClick}>
               <Menu.Item key='INBOX'>Inbox</Menu.Item>
               <Menu.Item key='SENT'>Sent</Menu.Item>
+              <Menu.Item key='DRAFT'>Draft</Menu.Item>
             </Menu>
           </div>
           <AntLayout.Content className={'layout'}>

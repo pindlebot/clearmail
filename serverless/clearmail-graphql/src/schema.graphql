@@ -45,6 +45,7 @@ input SendMessageInput {
 
 type Mutation {
   deleteThread(id: ID!): Message
+  deleteMessage(id: ID!): Message
   sendMessage (
     input: SendMessageInput!
   ): Message
