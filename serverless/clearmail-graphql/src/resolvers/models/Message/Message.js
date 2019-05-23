@@ -7,44 +7,72 @@ const send = async (parent, { input }, context) => {
     .catch(err => {
       throw err
     })
-  const destination = JSON.stringify(
-    input.destination.map(emailAddress => ({ emailAddress }))
-  )
-  const source = JSON.stringify(
-    input.source.map(emailAddress => ({ emailAddress }))
+  const from = JSON.stringify(
+    input.from.map(emailAddress => ({ emailAddress }))
   )
   const messageId = `<${MessageId}@email.amazonses.com>`
+  const recipients = input.to.map(emailAddress => `('${emailAddress}', '${context.user}')`).join(', ')
+  const inClause = input.to.map(c => `'${c}'`).join(',')
 
   let thread = input.thread ? `'${input.thread}'` : 'NULL'
-  let data = await client.query(`
-    INSERT into messages (
-      user_id,
-      subject,
-      text,
-      html,
-      snippet,
-      message_id,
-      thread_id,
-      labels,
-      destination,
-      source
+  const query = `
+    WITH old_addresses AS (
+      SELECT * FROM addresses WHERE email_address IN (${inClause})
+    ),
+    new_addresses AS (
+      INSERT INTO addresses (email_address, user_id) SELECT ${recipients} ON CONFLICT (email_address) DO NOTHING RETURNING *
+    ),
+    merged_addresses AS (
+      SELECT x.* FROM old_addresses x UNION SELECT y.* FROM new_addresses y
+    ),
+    insert_message AS (
+      INSERT into messages (
+        user_id,
+        subject,
+        text,
+        html,
+        snippet,
+        message_id,
+        labels
+      )
+      SELECT
+        '${context.user}',
+        '${input.subject}',
+        '${input.text}',
+        '${input.html}',
+        '${input.snippet}',
+        '${messageId}',
+        '{SENT}'::label[]
+      RETURNING *
+    ),
+    insert_messages_addresses AS (
+      INSERT INTO
+        messages_addresses(address_id, message_id, address_type)
+      SELECT
+        (SELECT id from merged_addresses),
+        (SELECT id from insert_message),
+        'TO'::address_type
+      RETURNING *
     )
-    VALUES(
-      '${context.user}',
-      '${input.subject}',
-      '${input.text}',
-      '${input.html}',
-      '${input.snippet}',
-      '${messageId}',
-      ${thread},
-      '{SENT}'::label[],
-      '${destination}'::jsonb,
-      '${source}'::jsonb
-    )
-    RETURNING *
-  `, { head: true })
-  
-  let { userId, threadId, ...rest } = data
+    SELECT
+      insert_message.*,
+      ARRAY(
+        SELECT
+          json_build_object(
+            'emailAddress', merged_addresses.email_address,
+            'id', merged_addresses.id,
+            'name', merged_addresses.name,
+            'user', merged_addresses.user_id
+          )
+      ) as to
+    FROM
+      insert_message,
+      merged_addresses
+  `
+  console.log(query)
+  const data = await client.query(query, { head: true })
+  const { userId, threadId, ...rest } = data
+
   return {
     user: userId,
     thread: threadId,

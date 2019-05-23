@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from 'antd/lib/modal'
-import { Mutation } from 'react-apollo'
+import { Mutation, compose, withApollo } from 'react-apollo'
 import ReplyDialogContent from '../ReplyDialogContent'
 import { toHtml } from '../ReplyDialogContent/convert'
 import gql from 'graphql-tag'
@@ -8,20 +8,28 @@ import { EditorState } from 'draft-js'
 import { THREAD_QUERY, FEED_QUERY } from '../../graphql/queries'
 import uuid from 'uuid/v4'
 import { RichUtils } from 'draft-js'
+import { connect } from 'react-redux'
+import { updateDraft, setDraftRecipients } from '../../lib/redux'
 
 const SEND_EMAIL = gql`
   mutation($input: SendMessageInput!) {
     sendMessage(input: $input) {
       id
       createdAt
-      source
-      destination
       subject
       text
       snippet
       labels
       html
       messageId
+      from {
+        id
+        emailAddress
+      }
+      to {
+        id
+        emailAddress
+      }
       attachments {
         id
       }
@@ -35,10 +43,7 @@ class ReplyDialog extends React.Component {
   state = {
     alignment: undefined,
     editorState: EditorState.createEmpty(),
-    loading: false,
-    subject: '',
-    recipients: [''],
-    html: ''
+    loading: false
   }
 
 
@@ -66,6 +71,7 @@ class ReplyDialog extends React.Component {
     this.props.handleClose()
     const {
       query,
+      draft,
       user: {
         data: {
           user: {
@@ -75,24 +81,24 @@ class ReplyDialog extends React.Component {
         }
       }
     } = this.props
-    let { editorState, subject, recipients } = this.state
-    let currentContent = editorState.getCurrentContent()
+    const { editorState } = this.state
+    const currentContent = editorState.getCurrentContent()
     let html = toHtml(currentContent)
-    if (this.state.html) {
-      html = `${html}<br />${this.state.html}`
+    if (draft.html) {
+      html = `${html}<br />${draft.html}`
     }
-    let text = currentContent.getPlainText('\n')
-    let snippet = currentContent.getPlainText('\n')
-    let encoded = window.btoa(html)
+    const text = currentContent.getPlainText('\n')
+    const snippet = currentContent.getPlainText('\n')
+    const encoded = window.btoa(html)
     const input = {
-      source: [emailAddress],
-      destination: recipients,
+      from: [emailAddress],
+      to: draft.recipients,
       html: encoded,
       text: text,
-      subject: subject,
+      subject: draft.subject,
       snippet: snippet
     }
-    let { data: { feed, thread }, variables } = query
+    const { data: { feed, thread }, variables } = query
 
     if (thread) {
       input.thread = thread.id
@@ -109,14 +115,17 @@ class ReplyDialog extends React.Component {
           messageId: uuid(),
           id: uuid(),
           user: userId,
-          destination: recipients.map(emailAddress => ({ emailAddress })),
-          source: [{
-            emailAddress
+          to: draft.recipients
+            .map(emailAddress => ({ emailAddress, id: uuid(), __typename: 'Address' })),
+          from: [{
+            emailAddress,
+            id: uuid(),
+            __typename: 'Address'
           }],
           createdAt: new Date().toISOString(),
           html: encoded,
           text: text,
-          subject,
+          subject: draft.subject,
           labels: ['SENT'],
           snippet: snippet,
           thread: {
@@ -154,10 +163,9 @@ class ReplyDialog extends React.Component {
             }
         )
       }
-    }).then(() => {
-      console.log('SENT')
     })
   }
+
   render () {
     const inlineStyles = this.state.editorState.getCurrentInlineStyle()
     return (
@@ -200,11 +208,24 @@ class ReplyDialog extends React.Component {
 //   }
 // })
 
-export default props => (
+const ReplyDialogWithMutation = props => (
   <Mutation mutation={SEND_EMAIL}>
     {mutate =>(
       <ReplyDialog {...props} mutate={mutate} />
     )}
   </Mutation>
 )
+
+export default compose(
+  connect(
+    state => ({
+      draft: state.root.draft
+    }),
+    {
+      updateDraft,
+      setDraftRecipients
+    }
+  ),
+  withApollo
+)(ReplyDialogWithMutation)
 

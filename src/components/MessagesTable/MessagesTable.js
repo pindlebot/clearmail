@@ -110,7 +110,7 @@ class MessagesTable extends React.Component {
           selected={selected}
           client={client}
           handleReplyClick={this.props.handleReplyClick}
-          deleteMessage={this.props.deleteMessage}
+          deleteThread={this.props.deleteThread}
           feed={this.props.feed}
           query={this.props.query}
         />
@@ -132,8 +132,8 @@ class MessagesTable extends React.Component {
                   return {
                     key: id,
                     sender: labels[0] === 'SENT'
-                      ? `To: ${message.destination[0].emailAddress}`
-                      : message.source[0].emailAddress,
+                      ? `To: ${message.from[0].emailAddress}`
+                      : message.to[0].emailAddress,
                     subject: message.subject,
                     date: formatDateString(message.createdAt) 
                   }

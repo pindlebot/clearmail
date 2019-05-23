@@ -35,10 +35,10 @@ const resolvers = {
       ORDER BY
         created_at DESC LIMIT ${limit} OFFSET ${offset}
       `
+      console.log(command)
       let threads = await client.query(command).catch(err => {
         console.log(err)
       })
-      console.log(threads)
       return {
         threads: threads.map(({ userId, ...rest }) => ({
           user: userId,
@@ -58,8 +58,7 @@ const resolvers = {
       }
 
       return client.query(`
-         SELECT * FROM threads
-         WHERE id = '${args.id}'
+         SELECT * FROM threads WHERE id = '${args.id}'
       `, {
         snakeCase: true,
         head: true
@@ -91,6 +90,19 @@ const resolvers = {
         `, { head: true })
       }
       return null
+    },
+    address: (obj, args, context) => {
+      return client.query(`
+        SELECT * FROM addresses WHERE id = '${args.id}'
+      `, { head: true })
+    },
+    lookupAddresses: (obj, args, context) => {
+      const { emailAddress } = args
+      const query = `
+        SELECT * FROM addresses WHERE email_address ILIKE '%${emailAddress}%'
+      `
+      console.log(query)
+      return client.query(query)
     }
   },
   Mutation: {
@@ -155,6 +167,40 @@ const resolvers = {
   },
   User: {},
   Message: {
+    from: (message, _, { user }) => {
+      return client.query(`
+        SELECT
+          addresses.*
+        FROM
+          messages_addresses
+        JOIN
+          addresses
+        ON
+          messages_addresses.address_id = addresses.id
+        WHERE
+          messages_addresses.message_id = '${message.id}'
+        AND
+          messages_addresses.address_type = 'FROM'::address_type
+
+      `, { snakeCase: true }).then(({ userId, ...rest }) => ({ ...rest, user: userId }))
+    },
+    to: (message, _, { user }) => {
+      return client.query(`
+        SELECT
+          addresses.*
+        FROM
+          messages_addresses
+        JOIN
+          addresses
+        ON
+          messages_addresses.address_id = addresses.id
+        WHERE
+          messages_addresses.message_id = '${message.id}'
+        AND
+          messages_addresses.address_type = 'TO'::address_type
+
+      `, { snakeCase: true }).then(({ userId, ...rest }) => ({ ...rest, user: userId }))
+    },
     attachments: (message, _, { user }) => {
       return client.query(
         `SELECT * FROM attachments a WHERE a.message_id = '${message.id}'`

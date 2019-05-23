@@ -42,7 +42,7 @@ class MessageCard extends React.Component {
     const { message } = this.props
     let {
       text,
-      source,
+      from,
       html
     } = message
     let content = html ? window.atob(html) : text
@@ -50,7 +50,7 @@ class MessageCard extends React.Component {
     return (
       <Card
         className={'messageCard'}
-        title={source[0]?.emailAddress}
+        title={from[0]?.emailAddress}
         actions={[
           <Icon type={'heart'} />,
           <Icon type={'enter'} onClick={this.props.handleReplyClick} />,

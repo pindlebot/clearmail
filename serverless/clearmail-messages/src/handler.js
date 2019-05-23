@@ -61,32 +61,90 @@ const insertMessage = (user, snippet, decoded) => {
     decoded.from.value.map(({ address }) => ({ emailAddress: address }))
   )
   const thread = user.threaad ? `'${user.thread}'` : 'NULL'
+  // const query = `
+  //   INSERT into messages (
+  //     user_id,
+  //     subject,
+  //     text,
+  //     html,
+  //     snippet,
+  //     message_id,
+  //     thread_id,
+  //     labels,
+  //     destination,
+  //     source
+  //   )
+  //   VALUES(
+  //     '${user.id}',
+  //     '${decoded.subject}',
+  //     '${decoded.text}',
+  //     '${Buffer.from(decoded.html).toString('base64')}',
+  //     '${snippet}',
+  //     '${decoded.messageId}',
+  //     ${thread},
+  //     '{INBOX}'::label[],
+  //     '${destination}'::jsonb,
+  //     '${source}'::jsonb
+  //   )
+  //   RETURNING *
+  // `
+  const recipients = decoded.from.value.map(c => `('${c.address}', '${user.id}')`).join(', ')
+  const inClause = decoded.from.value.map(c => `'${c.address}'`).join(',')
   const query = `
-    INSERT into messages (
-      user_id,
-      subject,
-      text,
-      html,
-      snippet,
-      message_id,
-      thread_id,
-      labels,
-      destination,
-      source
+    WITH old_recipients AS (
+      SELECT * FROM addresses WHERE email_address IN (${inClause})
+    ),
+    new_recipients AS (
+      INSERT INTO addresses (email_address, user_id) VALUES ${recipients} ON CONFLICT (email_address) DO NOTHING RETURNING *
+    ),
+    merged_recipients AS (
+      SELECT x.* FROM old_recipients x UNION SELECT y.* FROM new_recipients y
+    ),
+    insert_message AS (
+      INSERT into messages (
+        user_id,
+        subject,
+        text,
+        html,
+        snippet,
+        message_id,
+        thread_id,
+        labels,
+        destination,
+        source
+      )
+      SELECT
+        '${user.id}',
+        '${decoded.subject}',
+        '${decoded.text}',
+        '${Buffer.from(decoded.html).toString('base64')}',
+        '${snippet}',
+        '${decoded.messageId}',
+        ${thread},
+        '{INBOX}'::label[]
+      RETURNING *
+    ),
+    insert_messages_recipients AS (
+      INSERT INTO
+        messages_recipients(recipient_id, message_id)
+      SELECT
+        (SELECT id from merged_recipients),
+        (SELECT id from insert_message)
+      RETURNING *
     )
-    VALUES(
-      '${user.id}',
-      '${decoded.subject}',
-      '${decoded.text}',
-      '${Buffer.from(decoded.html).toString('base64')}',
-      '${snippet}',
-      '${decoded.messageId}',
-      ${thread},
-      '{INBOX}'::label[],
-      '${destination}'::jsonb,
-      '${source}'::jsonb
-    )
-    RETURNING *
+    SELECT
+      insert_message.*,
+      ARRAY(
+        SELECT
+          json_build_object(
+            'emailAddress', merged_recipients.email_address,
+            'id', merged_recipients.id,
+            'name', merged_recipients.name
+          )
+      ) as recipients
+    FROM
+      insert_message,
+      merged_recipients
   `
   console.log(query)
   return client.query(query, { head: true })

@@ -31,16 +31,16 @@ const sendOrderConfirmationEmail = (user) => {
 }
 
 const sendEmail = ({
-  destination,
-  source,
+  to,
+  from,
   subject,
   html,
   text
 }) => {
-  const SourceArn = `arn:aws:ses:${AWS_REGION}:${AWS_ACCOUNT_ID}:identity/${source[0]}`
+  const SourceArn = `arn:aws:ses:${AWS_REGION}:${AWS_ACCOUNT_ID}:identity/${from[0]}`
   return ses.sendEmail({
     Destination: {
-      ToAddresses: destination
+      ToAddresses: to
     },
     Message: {
       Body: {
@@ -58,9 +58,9 @@ const sendEmail = ({
         Charset: 'utf8'
       }
     },
-    Source: source[0],
+    Source: from[0],
     ReplyToAddresses: [
-      source[0]
+      from[0]
     ],
     SourceArn: SourceArn
   }).promise()
