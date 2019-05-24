@@ -61,32 +61,66 @@ const insertMessage = (user, snippet, decoded) => {
     decoded.from.value.map(({ address }) => ({ emailAddress: address }))
   )
   const thread = user.threaad ? `'${user.thread}'` : 'NULL'
+  // const query = `
+  //   INSERT into messages (
+  //     user_id,
+  //     subject,
+  //     text,
+  //     html,
+  //     snippet,
+  //     message_id,
+  //     thread_id,
+  //     labels,
+  //     destination,
+  //     source
+  //   )
+  //   VALUES(
+  //     '${user.id}',
+  //     '${decoded.subject}',
+  //     '${decoded.text}',
+  //     '${Buffer.from(decoded.html).toString('base64')}',
+  //     '${snippet}',
+  //     '${decoded.messageId}',
+  //     ${thread},
+  //     '{INBOX}'::label[],
+  //     '${destination}'::jsonb,
+  //     '${source}'::jsonb
+  //   )
+  //   RETURNING *
+  // `
+  const recipients = decoded.from.value.map(c => `('${c.address}', '${user.id}')`).join(', ')
+  const inClause = decoded.from.value.map(c => `'${c.address}'`).join(',')
   const query = `
-    INSERT into messages (
-      user_id,
-      subject,
-      text,
-      html,
-      snippet,
-      message_id,
-      thread_id,
-      labels,
-      destination,
-      source
+    WITH new_recipients AS (
+      INSERT INTO addresses (email_address, user_id) VALUES ${recipients} ON CONFLICT (email_address) DO NOTHING RETURNING *
+    ),
+    insert_message AS (
+      INSERT into messages (
+        user_id,
+        subject,
+        text,
+        html,
+        snippet,
+        message_id,
+        thread_id,
+        labels,
+        destination,
+        source
+      )
+      SELECT
+        '${user.id}',
+        '${decoded.subject}',
+        '${decoded.text}',
+        '${Buffer.from(decoded.html).toString('base64')}',
+        '${snippet}',
+        '${decoded.messageId}',
+        ${thread},
+        '{INBOX}'::label[],
+        '${destination}'::jsonb,
+        '${source}'::jsonb
+      RETURNING *
     )
-    VALUES(
-      '${user.id}',
-      '${decoded.subject}',
-      '${decoded.text}',
-      '${Buffer.from(decoded.html).toString('base64')}',
-      '${snippet}',
-      '${decoded.messageId}',
-      ${thread},
-      '{INBOX}'::label[],
-      '${destination}'::jsonb,
-      '${source}'::jsonb
-    )
-    RETURNING *
+    SELECT * FROM insert_message
   `
   console.log(query)
   return client.query(query, { head: true })

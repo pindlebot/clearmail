@@ -18,6 +18,7 @@ import Input from 'antd/lib/input'
 import Icon from 'antd/lib/icon'
 import Radio from 'antd/lib/radio'
 import Button from 'antd/lib/button'
+import AutoComplete from '../AutoComplete'
 
 const QuoteIcon = props => (
   <i>
@@ -30,47 +31,16 @@ class ReplyDialogContent extends React.Component {
 
   componentDidMount () {
     this.ref.current.focus()
-    const { thread } = this.props
-    if (!thread) return
-    let { messages } = thread
-    let [message] = messages
-    if (message) {
-      const {
-        subject,
-        source,
-      } = message
-      let html = window.atob(message.html) || message.text
-      let formattedDate = format(new Date(message.createdAt), 'ddd, MMM D, YYYY at h:mm')
-      let formatted = `On ${formattedDate} &#60;${source[0].emailAddress}&#62; wrote:`
-      let recipients = source.map(({ emailAddress }) => emailAddress)
-      this.props.update({
-        subject: subject,
-        recipients,
-        html: `${formatted}<br /><blockquote>${html}</blockquote>`
-      })
-    }
-    this.ref.current.editor.addEventListener('blur', this.onBlur, true)
-  }
-
-  handleRecipientsChange = evt => {
-    this.props.update({
-      recipients: evt.target.value.split(/,\s*/g).map(addr => addr.trim())
-    })
   }
 
   handleSubjectChange = evt => {
-    this.props.update({
+    this.props.updateDraft({
       subject: evt.target.value
     })
   }
 
   preventBubbles = evt => {
-    console.log(evt)
     evt.preventDefault()
-  }
-
-  onBlur = evt => {
-    console.log('onBlur', evt)
   }
 
   handleAlignment = evt => {
@@ -80,20 +50,16 @@ class ReplyDialogContent extends React.Component {
   }
 
   render () {
-    const { subject, recipients, alignment } = this.props
+    const { draft, alignment, thread } = this.props
+    console.log(this.props)
     return (
       <React.Fragment>
         <div className={'formContainer'}>
-          <Input
-            addonAfter={<Icon type="mail" />}
-            onChange={this.handleRecipientsChange}
-            value={recipients.join(', ')}
-            placeholder={'Recipient'}
-          />
+          <AutoComplete {...this.props} />
           <Input
             addonAfter={<Icon type="mail" />}
             onChange={this.handleSubjectChange}
-            value={subject}
+            value={draft.subject}
             placeholder={'Subject'}
           />
         </div>
@@ -141,7 +107,9 @@ class ReplyDialogContent extends React.Component {
             blockRenderMap={customBlockRenderMap}
             ref={this.ref}
           />
-          <div dangerouslySetInnerHTML={{ __html: this.props.html }} />
+          <div dangerouslySetInnerHTML={{
+            __html: draft.html
+          }} />
         </div>
       </React.Fragment>
     )

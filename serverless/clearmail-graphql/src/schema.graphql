@@ -8,11 +8,17 @@ enum Role {
 enum MessageLabel {
   SENT
   INBOX
+  DRAFT
 }
 
 enum Sort {
   ASC
   DESC
+}
+
+enum AddressType {
+  FROM
+  TO
 }
 
 scalar JSON
@@ -71,6 +77,13 @@ type Feed {
   threads: [Thread]
 }
 
+type Address {
+  id: ID!
+  user: ID
+  emailAddress: String
+  name: String
+}
+
 type Query {
   users: [User]
   user: User
@@ -78,6 +91,8 @@ type Query {
   thread(id: ID!, filter: JSON, sort: JSON): Thread
   threads(cursor: String, limit: Int, filter: JSON): [Thread]
   feed(limit: Int, offset: Int, filter: JSON, sort: JSON, query: String): Feed
+  address(id: ID!): Address
+  lookupAddresses(emailAddress: String!): [Address]
 }
 
 type User @auth {
@@ -121,12 +136,12 @@ type Message implements Node {
   user: ID
   createdAt: String
   attachments: [Attachment]
-  source: JSON
-  destination: JSON
   messageId: String
   subject: String
   text: String
   html: String
   labels: [MessageLabel]
   snippet: String
+  source: JSON
+  destination: JSON
 }

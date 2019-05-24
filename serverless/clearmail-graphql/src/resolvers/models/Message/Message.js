@@ -14,37 +14,49 @@ const send = async (parent, { input }, context) => {
     input.source.map(emailAddress => ({ emailAddress }))
   )
   const messageId = `<${MessageId}@email.amazonses.com>`
+  const recipients = input.destination.map(emailAddress => `('${emailAddress}', '${context.user}')`).join(', ')
+  const inClause = input.destination.map(c => `'${c}'`).join(',')
 
   let thread = input.thread ? `'${input.thread}'` : 'NULL'
-  let data = await client.query(`
-    INSERT into messages (
-      user_id,
-      subject,
-      text,
-      html,
-      snippet,
-      message_id,
-      thread_id,
-      labels,
-      destination,
-      source
+  const query = `
+    WITH new_addresses AS (
+      INSERT INTO addresses (email_address, user_id) VALUES ${recipients} ON CONFLICT (email_address) DO NOTHING RETURNING *
+    ),
+    insert_message AS (
+      INSERT into messages (
+        user_id,
+        subject,
+        text,
+        html,
+        snippet,
+        message_id,
+        labels,
+        thread_id,
+        source,
+        destination
+      )
+      SELECT
+        '${context.user}',
+        '${input.subject}',
+        '${input.text}',
+        '${input.html}',
+        '${input.snippet}',
+        '${messageId}',
+        '{SENT}'::label[],
+        ${thread},
+        '${source}'::jsonb,
+        '${destination}'::jsonb
+      RETURNING *
     )
-    VALUES(
-      '${context.user}',
-      '${input.subject}',
-      '${input.text}',
-      '${input.html}',
-      '${input.snippet}',
-      '${messageId}',
-      ${thread},
-      '{SENT}'::label[],
-      '${destination}'::jsonb,
-      '${source}'::jsonb
-    )
-    RETURNING *
-  `, { head: true })
-  
-  let { userId, threadId, ...rest } = data
+    SELECT
+      insert_message.*
+    FROM
+      insert_message
+  `
+  console.log(query)
+  const data = await client.query(query, { head: true })
+  const { userId, threadId, ...rest } = data
+
   return {
     user: userId,
     thread: threadId,

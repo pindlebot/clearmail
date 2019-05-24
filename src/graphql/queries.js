@@ -22,11 +22,11 @@ export const FEED_QUERY = gql`
           messageId
           createdAt
           snippet
-          source
           subject
-          destination
           labels
           html
+          source
+          destination
           attachments {
             id
             objectKey
@@ -46,12 +46,12 @@ export const THREAD_QUERY = gql`
         messageId
         snippet
         createdAt
-        source
         subject
-        destination
         labels
         html
         text
+        source
+        destination
         thread {
           id
         }

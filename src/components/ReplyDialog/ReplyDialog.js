@@ -1,27 +1,29 @@
 import React from 'react'
 import Modal from 'antd/lib/modal'
-import { Mutation } from 'react-apollo'
+import { Mutation, compose, withApollo } from 'react-apollo'
 import ReplyDialogContent from '../ReplyDialogContent'
 import { toHtml } from '../ReplyDialogContent/convert'
 import gql from 'graphql-tag'
-import { EditorState } from 'draft-js'
+import { EditorState, RichUtils } from 'draft-js'
 import { THREAD_QUERY, FEED_QUERY } from '../../graphql/queries'
 import uuid from 'uuid/v4'
-import { RichUtils } from 'draft-js'
+import { connect } from 'react-redux'
+import { updateDraft, setDraftRecipients } from '../../lib/redux'
+import format from 'date-fns/format'
 
 const SEND_EMAIL = gql`
   mutation($input: SendMessageInput!) {
     sendMessage(input: $input) {
       id
       createdAt
-      source
-      destination
       subject
       text
       snippet
       labels
       html
       messageId
+      source
+      destination
       attachments {
         id
       }
@@ -35,12 +37,31 @@ class ReplyDialog extends React.Component {
   state = {
     alignment: undefined,
     editorState: EditorState.createEmpty(),
-    loading: false,
-    subject: '',
-    recipients: [''],
-    html: ''
+    loading: false
   }
-
+  
+  componentDidUpdate (prevProps) {
+    const { thread } = this.props
+    if (thread && !prevProps.thread) {
+      let { messages } = thread
+      let [message] = messages
+      if (message) {
+        const {
+          subject,
+          source,
+        } = message
+        let html = window.atob(message.html) || message.text
+        let formattedDate = format(new Date(message.createdAt), 'ddd, MMM D, YYYY at h:mm')
+        let formatted = `On ${formattedDate} &#60;${source[0].emailAddress}&#62; wrote:`
+        let recipients = source.map(({ emailAddress }) => emailAddress)
+        this.props.updateDraft({
+          subject: subject,
+          recipients,
+          html: `${formatted}<br /><blockquote>${html}</blockquote>`
+        })
+      }
+    }
+  }
 
   onChange = editorState => {
     this.setState({ editorState })
@@ -66,6 +87,7 @@ class ReplyDialog extends React.Component {
     this.props.handleClose()
     const {
       query,
+      draft,
       user: {
         data: {
           user: {
@@ -75,24 +97,24 @@ class ReplyDialog extends React.Component {
         }
       }
     } = this.props
-    let { editorState, subject, recipients } = this.state
-    let currentContent = editorState.getCurrentContent()
+    const { editorState } = this.state
+    const currentContent = editorState.getCurrentContent()
     let html = toHtml(currentContent)
-    if (this.state.html) {
-      html = `${html}<br />${this.state.html}`
+    if (draft.html) {
+      html = `${html}<br />${draft.html}`
     }
-    let text = currentContent.getPlainText('\n')
-    let snippet = currentContent.getPlainText('\n')
-    let encoded = window.btoa(html)
+    const text = currentContent.getPlainText('\n')
+    const snippet = currentContent.getPlainText('\n')
+    const encoded = window.btoa(html)
     const input = {
       source: [emailAddress],
-      destination: recipients,
+      destination: draft.recipients,
       html: encoded,
       text: text,
-      subject: subject,
+      subject: draft.subject,
       snippet: snippet
     }
-    let { data: { feed, thread }, variables } = query
+    const { data: { feed, thread }, variables } = query
 
     if (thread) {
       input.thread = thread.id
@@ -109,14 +131,15 @@ class ReplyDialog extends React.Component {
           messageId: uuid(),
           id: uuid(),
           user: userId,
-          destination: recipients.map(emailAddress => ({ emailAddress })),
+          destination: draft.recipients
+            .map(emailAddress => ({ emailAddress })),
           source: [{
             emailAddress
           }],
           createdAt: new Date().toISOString(),
           html: encoded,
           text: text,
-          subject,
+          subject: draft.subject,
           labels: ['SENT'],
           snippet: snippet,
           thread: {
@@ -154,10 +177,9 @@ class ReplyDialog extends React.Component {
             }
         )
       }
-    }).then(() => {
-      console.log('SENT')
     })
   }
+
   render () {
     const inlineStyles = this.state.editorState.getCurrentInlineStyle()
     return (
@@ -200,11 +222,24 @@ class ReplyDialog extends React.Component {
 //   }
 // })
 
-export default props => (
+const ReplyDialogWithMutation = props => (
   <Mutation mutation={SEND_EMAIL}>
-    {mutate =>(
+    {mutate => (
       <ReplyDialog {...props} mutate={mutate} />
     )}
   </Mutation>
 )
+
+export default compose(
+  connect(
+    state => ({
+      draft: state.root.draft
+    }),
+    {
+      updateDraft,
+      setDraftRecipients
+    }
+  ),
+  withApollo
+)(ReplyDialogWithMutation)
 

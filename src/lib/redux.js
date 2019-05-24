@@ -16,7 +16,12 @@ const initialState = {
   cusrsor: undefined,
   limit: 10,
   query: '',
-  filter: ['INBOX']
+  filter: ['INBOX'],
+  draft: {
+    subject: '',
+    html: '',
+    recipients: []
+  }
 }
 
 const SET_CURSOR = 'SET_CURSOR'
@@ -31,6 +36,8 @@ const ROUTER_LOCATION_CHANGE = '@@router/LOCATION_CHANGE'
 const SET_LOCATION = 'SET_LOCATION'
 const SET_LIMIT = 'SET_LIMIT'
 const SET_QUERY = 'SET_QUERY'
+const SET_DRAFT_RECIPIENTS = 'SET_DRAFT_RECIPIENTS'
+const UPDATE_DRAFT = 'UPDATE_DRAFT'
 
 export const setLocation = payload => ({
   type: SET_LOCATION,
@@ -59,6 +66,16 @@ export const setGraphQLErrors = payload => ({
 
 export const clearGraphQLErrors = payload => ({
   type: CLEAR_GRAPHQL_ERRORS,
+  payload
+})
+
+export const setDraftRecipients = payload => ({
+  type: SET_DRAFT_RECIPIENTS,
+  payload
+})
+
+export const updateDraft = payload => ({
+  type: UPDATE_DRAFT,
   payload
 })
 
@@ -141,6 +158,22 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: action.payload
+      }
+    case SET_DRAFT_RECIPIENTS:
+      return {
+        ...state,
+        draft: {
+          ...state.draft,
+          recipients: action.payload
+        }
+      }
+    case UPDATE_DRAFT:
+      return {
+        ...state,
+        draft: {
+          ...state.draft,
+          ...action.payload
+        }
       }
     default:
       return state
