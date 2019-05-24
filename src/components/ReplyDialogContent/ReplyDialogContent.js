@@ -31,26 +31,6 @@ class ReplyDialogContent extends React.Component {
 
   componentDidMount () {
     this.ref.current.focus()
-    const { thread } = this.props
-    if (!thread) return
-    let { messages } = thread
-    let [message] = messages
-    if (message) {
-      const {
-        subject,
-        from,
-      } = message
-      let html = window.atob(message.html) || message.text
-      let formattedDate = format(new Date(message.createdAt), 'ddd, MMM D, YYYY at h:mm')
-      let formatted = `On ${formattedDate} &#60;${from[0].emailAddress}&#62; wrote:`
-      let recipients = from.map(({ emailAddress }) => emailAddress)
-      this.props.updateDraft({
-        subject: subject,
-        recipients,
-        html: `${formatted}<br /><blockquote>${html}</blockquote>`
-      })
-    }
-    this.ref.current.editor.addEventListener('blur', this.onBlur, true)
   }
 
   handleSubjectChange = evt => {
@@ -60,12 +40,7 @@ class ReplyDialogContent extends React.Component {
   }
 
   preventBubbles = evt => {
-    console.log(evt)
     evt.preventDefault()
-  }
-
-  onBlur = evt => {
-    console.log('onBlur', evt)
   }
 
   handleAlignment = evt => {
@@ -75,7 +50,7 @@ class ReplyDialogContent extends React.Component {
   }
 
   render () {
-    const { draft, alignment } = this.props
+    const { draft, alignment, thread } = this.props
     console.log(this.props)
     return (
       <React.Fragment>

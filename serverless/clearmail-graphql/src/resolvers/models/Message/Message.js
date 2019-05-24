@@ -7,23 +7,20 @@ const send = async (parent, { input }, context) => {
     .catch(err => {
       throw err
     })
-  const from = JSON.stringify(
-    input.from.map(emailAddress => ({ emailAddress }))
+  const destination = JSON.stringify(
+    input.destination.map(emailAddress => ({ emailAddress }))
+  )
+  const source = JSON.stringify(
+    input.source.map(emailAddress => ({ emailAddress }))
   )
   const messageId = `<${MessageId}@email.amazonses.com>`
-  const recipients = input.to.map(emailAddress => `('${emailAddress}', '${context.user}')`).join(', ')
-  const inClause = input.to.map(c => `'${c}'`).join(',')
+  const recipients = input.destination.map(emailAddress => `('${emailAddress}', '${context.user}')`).join(', ')
+  const inClause = input.destination.map(c => `'${c}'`).join(',')
 
   let thread = input.thread ? `'${input.thread}'` : 'NULL'
   const query = `
-    WITH old_addresses AS (
-      SELECT * FROM addresses WHERE email_address IN (${inClause})
-    ),
-    new_addresses AS (
-      INSERT INTO addresses (email_address, user_id) SELECT ${recipients} ON CONFLICT (email_address) DO NOTHING RETURNING *
-    ),
-    merged_addresses AS (
-      SELECT x.* FROM old_addresses x UNION SELECT y.* FROM new_addresses y
+    WITH new_addresses AS (
+      INSERT INTO addresses (email_address, user_id) VALUES ${recipients} ON CONFLICT (email_address) DO NOTHING RETURNING *
     ),
     insert_message AS (
       INSERT into messages (
@@ -33,7 +30,10 @@ const send = async (parent, { input }, context) => {
         html,
         snippet,
         message_id,
-        labels
+        labels,
+        thread_id,
+        source,
+        destination
       )
       SELECT
         '${context.user}',
@@ -42,32 +42,16 @@ const send = async (parent, { input }, context) => {
         '${input.html}',
         '${input.snippet}',
         '${messageId}',
-        '{SENT}'::label[]
-      RETURNING *
-    ),
-    insert_messages_addresses AS (
-      INSERT INTO
-        messages_addresses(address_id, message_id, address_type)
-      SELECT
-        (SELECT id from merged_addresses),
-        (SELECT id from insert_message),
-        'TO'::address_type
+        '{SENT}'::label[],
+        ${thread},
+        '${source}'::jsonb,
+        '${destination}'::jsonb
       RETURNING *
     )
     SELECT
-      insert_message.*,
-      ARRAY(
-        SELECT
-          json_build_object(
-            'emailAddress', merged_addresses.email_address,
-            'id', merged_addresses.id,
-            'name', merged_addresses.name,
-            'user', merged_addresses.user_id
-          )
-      ) as to
+      insert_message.*
     FROM
-      insert_message,
-      merged_addresses
+      insert_message
   `
   console.log(query)
   const data = await client.query(query, { head: true })

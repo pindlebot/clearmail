@@ -132,8 +132,8 @@ class MessagesTable extends React.Component {
                   return {
                     key: id,
                     sender: labels[0] === 'SENT'
-                      ? `To: ${message.from[0].emailAddress}`
-                      : message.to[0].emailAddress,
+                      ? `To: ${message?.source[0]?.emailAddress || ''}`
+                      : message?.destination[0]?.emailAddress || '',
                     subject: message.subject,
                     date: formatDateString(message.createdAt) 
                   }

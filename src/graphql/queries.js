@@ -25,14 +25,8 @@ export const FEED_QUERY = gql`
           subject
           labels
           html
-          to {
-            id
-            emailAddress
-          }
-          from {
-            id
-            emailAddress
-          }
+          source
+          destination
           attachments {
             id
             objectKey
@@ -56,14 +50,8 @@ export const THREAD_QUERY = gql`
         labels
         html
         text
-        to {
-          id
-          emailAddress
-        }
-        from {
-          id
-          emailAddress
-        }
+        source
+        destination
         thread {
           id
         }

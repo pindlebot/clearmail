@@ -167,40 +167,40 @@ const resolvers = {
   },
   User: {},
   Message: {
-    from: (message, _, { user }) => {
-      return client.query(`
-        SELECT
-          addresses.*
-        FROM
-          messages_addresses
-        JOIN
-          addresses
-        ON
-          messages_addresses.address_id = addresses.id
-        WHERE
-          messages_addresses.message_id = '${message.id}'
-        AND
-          messages_addresses.address_type = 'FROM'::address_type
+    // from: (message, _, { user }) => {
+    //   return client.query(`
+    //     SELECT
+    //       addresses.*
+    //     FROM
+    //       messages_addresses
+    //     JOIN
+    //       addresses
+    //     ON
+    //       messages_addresses.address_id = addresses.id
+    //     WHERE
+    //       messages_addresses.message_id = '${message.id}'
+    //     AND
+    //       messages_addresses.address_type = 'FROM'::address_type
 
-      `, { snakeCase: true }).then(({ userId, ...rest }) => ({ ...rest, user: userId }))
-    },
-    to: (message, _, { user }) => {
-      return client.query(`
-        SELECT
-          addresses.*
-        FROM
-          messages_addresses
-        JOIN
-          addresses
-        ON
-          messages_addresses.address_id = addresses.id
-        WHERE
-          messages_addresses.message_id = '${message.id}'
-        AND
-          messages_addresses.address_type = 'TO'::address_type
+    //   `, { snakeCase: true }).then(({ userId, ...rest }) => ({ ...rest, user: userId }))
+    // },
+    // to: (message, _, { user }) => {
+    //   return client.query(`
+    //     SELECT
+    //       addresses.*
+    //     FROM
+    //       messages_addresses
+    //     JOIN
+    //       addresses
+    //     ON
+    //       messages_addresses.address_id = addresses.id
+    //     WHERE
+    //       messages_addresses.message_id = '${message.id}'
+    //     AND
+    //       messages_addresses.address_type = 'TO'::address_type
 
-      `, { snakeCase: true }).then(({ userId, ...rest }) => ({ ...rest, user: userId }))
-    },
+    //   `, { snakeCase: true }).then(({ userId, ...rest }) => ({ ...rest, user: userId }))
+    // },
     attachments: (message, _, { user }) => {
       return client.query(
         `SELECT * FROM attachments a WHERE a.message_id = '${message.id}'`

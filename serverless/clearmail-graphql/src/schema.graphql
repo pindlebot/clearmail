@@ -40,8 +40,8 @@ input UpdateUserInput {
 }
 
 input SendMessageInput {
-  to: [String]
-  from: [String]
+  destination: [String]
+  source: [String]
   subject: String
   html: String
   text: String
@@ -142,6 +142,6 @@ type Message implements Node {
   html: String
   labels: [MessageLabel]
   snippet: String
-  from: [Address]
-  to: [Address]
+  source: JSON
+  destination: JSON
 }

@@ -4,12 +4,12 @@ import { Mutation, compose, withApollo } from 'react-apollo'
 import ReplyDialogContent from '../ReplyDialogContent'
 import { toHtml } from '../ReplyDialogContent/convert'
 import gql from 'graphql-tag'
-import { EditorState } from 'draft-js'
+import { EditorState, RichUtils } from 'draft-js'
 import { THREAD_QUERY, FEED_QUERY } from '../../graphql/queries'
 import uuid from 'uuid/v4'
-import { RichUtils } from 'draft-js'
 import { connect } from 'react-redux'
 import { updateDraft, setDraftRecipients } from '../../lib/redux'
+import format from 'date-fns/format'
 
 const SEND_EMAIL = gql`
   mutation($input: SendMessageInput!) {
@@ -22,14 +22,8 @@ const SEND_EMAIL = gql`
       labels
       html
       messageId
-      from {
-        id
-        emailAddress
-      }
-      to {
-        id
-        emailAddress
-      }
+      source
+      destination
       attachments {
         id
       }
@@ -45,7 +39,29 @@ class ReplyDialog extends React.Component {
     editorState: EditorState.createEmpty(),
     loading: false
   }
-
+  
+  componentDidUpdate (prevProps) {
+    const { thread } = this.props
+    if (thread && !prevProps.thread) {
+      let { messages } = thread
+      let [message] = messages
+      if (message) {
+        const {
+          subject,
+          source,
+        } = message
+        let html = window.atob(message.html) || message.text
+        let formattedDate = format(new Date(message.createdAt), 'ddd, MMM D, YYYY at h:mm')
+        let formatted = `On ${formattedDate} &#60;${source[0].emailAddress}&#62; wrote:`
+        let recipients = source.map(({ emailAddress }) => emailAddress)
+        this.props.updateDraft({
+          subject: subject,
+          recipients,
+          html: `${formatted}<br /><blockquote>${html}</blockquote>`
+        })
+      }
+    }
+  }
 
   onChange = editorState => {
     this.setState({ editorState })
@@ -91,8 +107,8 @@ class ReplyDialog extends React.Component {
     const snippet = currentContent.getPlainText('\n')
     const encoded = window.btoa(html)
     const input = {
-      from: [emailAddress],
-      to: draft.recipients,
+      source: [emailAddress],
+      destination: draft.recipients,
       html: encoded,
       text: text,
       subject: draft.subject,
@@ -115,12 +131,10 @@ class ReplyDialog extends React.Component {
           messageId: uuid(),
           id: uuid(),
           user: userId,
-          to: draft.recipients
-            .map(emailAddress => ({ emailAddress, id: uuid(), __typename: 'Address' })),
-          from: [{
-            emailAddress,
-            id: uuid(),
-            __typename: 'Address'
+          destination: draft.recipients
+            .map(emailAddress => ({ emailAddress })),
+          source: [{
+            emailAddress
           }],
           createdAt: new Date().toISOString(),
           html: encoded,
@@ -210,7 +224,7 @@ class ReplyDialog extends React.Component {
 
 const ReplyDialogWithMutation = props => (
   <Mutation mutation={SEND_EMAIL}>
-    {mutate =>(
+    {mutate => (
       <ReplyDialog {...props} mutate={mutate} />
     )}
   </Mutation>

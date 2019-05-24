@@ -91,14 +91,8 @@ const insertMessage = (user, snippet, decoded) => {
   const recipients = decoded.from.value.map(c => `('${c.address}', '${user.id}')`).join(', ')
   const inClause = decoded.from.value.map(c => `'${c.address}'`).join(',')
   const query = `
-    WITH old_recipients AS (
-      SELECT * FROM addresses WHERE email_address IN (${inClause})
-    ),
-    new_recipients AS (
+    WITH new_recipients AS (
       INSERT INTO addresses (email_address, user_id) VALUES ${recipients} ON CONFLICT (email_address) DO NOTHING RETURNING *
-    ),
-    merged_recipients AS (
-      SELECT x.* FROM old_recipients x UNION SELECT y.* FROM new_recipients y
     ),
     insert_message AS (
       INSERT into messages (
@@ -121,30 +115,12 @@ const insertMessage = (user, snippet, decoded) => {
         '${snippet}',
         '${decoded.messageId}',
         ${thread},
-        '{INBOX}'::label[]
-      RETURNING *
-    ),
-    insert_messages_recipients AS (
-      INSERT INTO
-        messages_recipients(recipient_id, message_id)
-      SELECT
-        (SELECT id from merged_recipients),
-        (SELECT id from insert_message)
+        '{INBOX}'::label[],
+        '${destination}'::jsonb,
+        '${source}'::jsonb
       RETURNING *
     )
-    SELECT
-      insert_message.*,
-      ARRAY(
-        SELECT
-          json_build_object(
-            'emailAddress', merged_recipients.email_address,
-            'id', merged_recipients.id,
-            'name', merged_recipients.name
-          )
-      ) as recipients
-    FROM
-      insert_message,
-      merged_recipients
+    SELECT * FROM insert_message
   `
   console.log(query)
   return client.query(query, { head: true })
