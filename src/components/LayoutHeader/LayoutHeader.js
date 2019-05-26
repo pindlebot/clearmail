@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 import SearchMessages from '../SearchMessages'
 import AntLayout from 'antd/lib/layout'
 import Button from 'antd/lib/button'
-import './styles.scss'
+import styles from './styles.scss'
 
 const styleSheet = {
   root: {
@@ -58,13 +58,13 @@ const LayoutHeader = props => {
   const { classes, ...other } = props
 
   return (
-    <AntLayout.Header className={'layoutHeader'}>
-      <div className={'brand'}>
-        <Link to='/' className={'link'}>
+    <AntLayout.Header className={styles.root}>
+      <div className={styles.brand}>
+        <Link to='/' className={styles.link}>
           {config.APP_NAME}
         </Link>
       </div>
-      <div className={'search'}>
+      <div className={styles.search}>
         <SearchMessages
           width={window.innerWidth}
           handleSearch={props.handleSearch}

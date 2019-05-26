@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 
-module.exports = [
+export default [
   graphql(
     gql`
       mutation(
@@ -20,19 +20,24 @@ module.exports = [
       name: 'signinWithEmail',
       props: ({
         signinWithEmail,
-        ownProps: { client }
+        ownProps: { client, setGraphQLErrors }
       }) => ({
         signin: async (variables) => {
-          const resp = await signinWithEmail({ variables })
-          const { data: { signinUser: { token } } } = resp
+          try {
+            const resp = await signinWithEmail({ variables })
+            const { data: { signinUser: { token } } } = resp
 
-          if (token) {
-            window.localStorage.setItem('token', token)
+            if (token) {
+              window.localStorage.setItem('token', token)
 
-            await client.resetStore()
+              await client.resetStore()
+            }
+
+            return resp
+          } catch (err) {
+            setGraphQLErrors(err.graphQLErrors)
+            throw err
           }
-
-          return resp
         }
       })
     }
@@ -61,19 +66,24 @@ module.exports = [
       name: 'createWithEmail',
       props: ({
         createWithEmail,
-        ownProps: { client }
+        ownProps: { client, setGraphQLErrors }
       }) => ({
         create: async (variables) => {
-          const resp = await createWithEmail({ variables })
-          const { data: { signinUser: { token } } } = resp
+          try {
+            const resp = await createWithEmail({ variables })
+            const { data: { signinUser: { token } } } = resp
 
-          if (token) {
-            window.localStorage.setItem('token', token)
+            if (token) {
+              window.localStorage.setItem('token', token)
 
-            await client.resetStore()
+              await client.resetStore()
+            }
+
+            return resp
+          } catch (err) {
+            setGraphQLErrors(err.graphQLErrors)
+            throw err
           }
-
-          return resp
         }
       })
     }

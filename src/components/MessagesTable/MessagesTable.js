@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { stableSort, getSorting } from './util'
 import DashboardMessagesTableToolbar from '../MessagesTableToolbar'
 import Table from 'antd/lib/table'
-import './styles.scss'
+import styles from './styles.scss'
 
 const formatDateString = isoDate => {
   let date = new Date(isoDate)
@@ -104,7 +104,7 @@ class MessagesTable extends React.Component {
     }]
 
     return (
-      <div className={'messageTable'}>
+      <div className={styles.root}>
         <DashboardMessagesTableToolbar
           numSelected={selected.length}
           selected={selected}
@@ -114,10 +114,10 @@ class MessagesTable extends React.Component {
           feed={this.props.feed}
           query={this.props.query}
         />
-        <div className={'tableWrapper'}>
+        <div className={styles.wrapper}>
           <Table 
             showHeader={false}
-            className={'table'}
+            className={styles.table}
             selectedRowKeys={this.state.selected}
             rowSelection={{
               onChange: (selectedRowKeys, selectedRows) => {
@@ -142,20 +142,6 @@ class MessagesTable extends React.Component {
           >
           </Table>
         </div>
-        {/*<TablePagination
-          component='div'
-          count={1000}
-          rowsPerPage={limit}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page'
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page'
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        />*/}
       </div>
     )
   }

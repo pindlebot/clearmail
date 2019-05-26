@@ -2,7 +2,8 @@ import React from 'react'
 import MessageCard from '../Message'
 import Button from 'antd/lib/button'
 import Tag from 'antd/lib/tag'
-import './styles.scss'
+import styles from './styles.scss'
+
 class Thread extends React.Component {
   static defaultProps = {
     thread: {
@@ -31,9 +32,9 @@ class Thread extends React.Component {
     }
     let [message] = messages
     return (
-      <div className={'thread'}>
-        <div className={'row'}>
-          <div className={'subject'}>
+      <div className={styles.thread}>
+        <div className={styles.row}>
+          <div className={styles.subject}>
             {message.subject}
           </div>
           {message.labels.map((label, i) => <Tag

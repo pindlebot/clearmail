@@ -1,7 +1,7 @@
 import React from 'react'
 import { format } from 'date-fns'
 import Button from 'antd/lib/button'
-import './styles.scss'
+import styles from './styles.scss'
 import Card from 'antd/lib/card'
 import Icon from 'antd/lib/icon'
 import { THREAD_QUERY } from '../../graphql/queries'
@@ -49,7 +49,7 @@ class MessageCard extends React.Component {
 
     return (
       <Card
-        className={'messageCard'}
+        className={styles.root}
         title={source[0]?.emailAddress}
         actions={[
           <Icon type={'heart'} />,

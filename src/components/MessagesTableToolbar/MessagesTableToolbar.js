@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import { FEED_QUERY } from '../../graphql/queries';
 import Button from 'antd/lib/button'
-import './styles.scss'
+import styles from './styles.scss'
 
 class DashboardMessagesTableToolbar extends React.Component {
   static propTypes = {
@@ -44,11 +44,11 @@ class DashboardMessagesTableToolbar extends React.Component {
     const { numSelected, selected, classes } = this.props
     return (
       <div
-        className={classNames('messageTableToolbar', {
-          highlight: numSelected > 0,
+        className={classNames(styles.root, {
+          [styles.highlight]: numSelected > 0,
         })}
       >
-        <div className={'title'}>
+        <div className={styles.title}>
           {numSelected > 0 ? (
             <div>
               {numSelected} selected
@@ -59,8 +59,8 @@ class DashboardMessagesTableToolbar extends React.Component {
             </div>
           )}
         </div>
-        <div className={'spacer'} />
-        <div className={'actions'}>
+        <div className={styles.spacer} />
+        <div className={styles.actions}>
           <Button onClick={this.props.handleReplyClick} icon={'plus'} shape="circle" />
           {numSelected > 0 ? (
             <Button aria-label='Delete' onClick={this.handleDelete} icon={'delete'} shape="circle" />

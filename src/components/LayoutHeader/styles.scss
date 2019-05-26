@@ -1,10 +1,9 @@
-.layoutHeader {
+.root {
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: #fff;
   box-shadow: none;
-  // border-bottom: 1px solid #F5F5F5;
   
   .search {
     width: 300px;
@@ -21,6 +20,7 @@
     letter-spacing: 0.5px;
     margin-left: 0.4em;
   }
+
   .link {
     color: #123;
     text-decoration: none;

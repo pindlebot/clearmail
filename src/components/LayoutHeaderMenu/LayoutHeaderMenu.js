@@ -4,7 +4,7 @@ import Button from 'antd/lib/button'
 import Menu from 'antd/lib/menu'
 import Dropdown from 'antd/lib/dropdown'
 import ProfileAvatar from '../ProfileAvatar'
-import './styles.scss'
+import styles from './styles.scss'
 
 class AppBarMenu extends React.Component {
   state = {
@@ -26,7 +26,7 @@ class AppBarMenu extends React.Component {
       this.props.logged
         ? (
           <Menu.Item
-            className={'item'}
+            className={styles.item}
             onClick={this.props.signout}
             key={0}
           >
@@ -34,7 +34,7 @@ class AppBarMenu extends React.Component {
           </Menu.Item>
         ) : (
           <Menu.Item
-            className={'item'}
+            className={styles.item}
             onClick={this.props.login}
             key={1}>Login</Menu.Item>
         )
@@ -50,7 +50,7 @@ class AppBarMenu extends React.Component {
       </Menu>
     )
     return (
-      <div className={'layoutHeaderMenu'}>
+      <div className={styles.root}>
         <ProfileAvatar />
         <Dropdown overlay={menu} trigger={['click']}>
           <Button

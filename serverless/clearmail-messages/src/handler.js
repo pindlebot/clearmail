@@ -61,33 +61,6 @@ const insertMessage = (user, snippet, decoded) => {
     decoded.from.value.map(({ address }) => ({ emailAddress: address }))
   )
   const thread = user.threaad ? `'${user.thread}'` : 'NULL'
-  // const query = `
-  //   INSERT into messages (
-  //     user_id,
-  //     subject,
-  //     text,
-  //     html,
-  //     snippet,
-  //     message_id,
-  //     thread_id,
-  //     labels,
-  //     destination,
-  //     source
-  //   )
-  //   VALUES(
-  //     '${user.id}',
-  //     '${decoded.subject}',
-  //     '${decoded.text}',
-  //     '${Buffer.from(decoded.html).toString('base64')}',
-  //     '${snippet}',
-  //     '${decoded.messageId}',
-  //     ${thread},
-  //     '{INBOX}'::label[],
-  //     '${destination}'::jsonb,
-  //     '${source}'::jsonb
-  //   )
-  //   RETURNING *
-  // `
   const recipients = decoded.from.value.map(c => `('${c.address}', '${user.id}')`).join(', ')
   const inClause = decoded.from.value.map(c => `'${c.address}'`).join(',')
   const query = `
@@ -129,6 +102,7 @@ const insertMessage = (user, snippet, decoded) => {
 const handleMessage = async (message) => {
   const { receipt: { action: { objectKey } } } = message
   const decoded = await parse(objectKey)
+  console.log(JSON.stringify(decoded))
   const snippet = extractSnippet(decoded)
   await verifyIfNeeded(decoded)
 

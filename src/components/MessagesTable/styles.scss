@@ -1,4 +1,4 @@
-.messageTable {
+.root {
   width: 100%;
   background-color: #fff;
   padding: 60px;
@@ -10,7 +10,8 @@
     // min-width: 960; 
     background-color: #fff;
   }
-  .tableWrapper {
+
+  .wrapper {
     overflow-x: auto;
   }
 }

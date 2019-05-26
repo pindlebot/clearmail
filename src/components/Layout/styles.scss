@@ -1,4 +1,4 @@
-.layoutContainer {
+.root {
   .sidebar {
     width: 200px;
     height: calc(100vh - 80px);
@@ -7,11 +7,11 @@
     align-items: center;
     background-color: #fff;
 
-    .ant-menu-inline {
+    :global(.ant-menu-inline) {
       border-right: none;
     }
   
-    .ant-btn {
+    :global(.ant-btn) {
       margin-bottom: 30px;
       width: 50px;
       height: 50px;
@@ -33,21 +33,20 @@
       }
     }
   }
-}
- 
-.layoutRow {
-  display: flex;
+
+  .content {
+    background-color: #fafafa;
+    min-height: calc(100vh - 65px);
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px;
+    border-top-left-radius: 50px;
+  }
+  .row {
+    display: flex;
+  } 
 }
 
-.ant-layout {
+:global(.ant-layout) {
   background: #fff;
-}
-
-.layout {
-  background-color: #fafafa;
-  min-height: calc(100vh - 65px);
-  height: 100%;
-  box-sizing: border-box;
-  padding: 40px;
-  border-top-left-radius: 50px;
 }

@@ -4,10 +4,13 @@ import Header from '../LayoutHeader'
 import getToken from '../../lib/getToken'
 import Footer from '../Footer'
 import AntLayout from 'antd/lib/layout'
-import './styles.scss'
+import styles from './styles.scss'
 import Menu from 'antd/lib/menu'
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
+
+
+console.log({ styles })
 
 function parseQuery (string) {
   let { query, filter } = string.split(/\s+/g)
@@ -60,7 +63,7 @@ class Layout extends Component {
     const { user } = this.props
     const logged = user && user.data && user.data.user && user.data.user.role === 'USER'
     return (
-      <AntLayout className={'layoutContainer'}>
+      <AntLayout className={styles.root}>
         <Header
           {...other}
           signout={this.signout}
@@ -73,15 +76,15 @@ class Layout extends Component {
             })
           }}
         />
-        <div className={'layoutRow'}>
-          <div className={'sidebar'}>
+        <div className={styles.row}>
+          <div className={styles.sidebar}>
             <Menu selectedKeys={query.variables.filter.labels} style={{width: '100%', marginTop: '60px'}} mode={'inline'} onClick={this.onClick}>
               <Menu.Item key='INBOX'>Inbox</Menu.Item>
               <Menu.Item key='SENT'>Sent</Menu.Item>
               <Menu.Item key='DRAFT'>Draft</Menu.Item>
             </Menu>
           </div>
-          <AntLayout.Content className={'layout'}>
+          <AntLayout.Content className={styles.content}>
             {this.props.children}
           </AntLayout.Content>
         </div>

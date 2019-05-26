@@ -7,11 +7,20 @@
   "static": {
     "dir": "dist"
   },
+  "hooks": {
+    "build": "yarn build"
+  },
+  "redirects": {
+    "/*": {
+      "location": "/",
+      "status": 200
+    }
+  },
   "environment": {},
   "stages": {
     "production": {
       "domain": "mail.contentkit.co",
-      "zone": "mail.contentkit.co"
+      "zone": "contentkit.co"
     }
   }
 }

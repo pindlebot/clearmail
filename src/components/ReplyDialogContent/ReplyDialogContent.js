@@ -8,7 +8,7 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import 'draft-js/dist/Draft.css'
 import customBlockRenderMap from './customBlockRenderMap'
-import './editor.scss'
+import styles from './editor.scss'
 import classnames from 'classnames'
 import { toHtml } from './convert'
 import { THREAD_QUERY, FEED_QUERY } from '../../graphql/queries'
@@ -54,7 +54,7 @@ class ReplyDialogContent extends React.Component {
     console.log(this.props)
     return (
       <React.Fragment>
-        <div className={'formContainer'}>
+        <div className={styles.formContainer}>
           <AutoComplete {...this.props} />
           <Input
             addonAfter={<Icon type="mail" />}
@@ -66,34 +66,34 @@ class ReplyDialogContent extends React.Component {
         <div>
           <Radio.Group
             onChange={this.handleAlignment}
-            className={'toggleButtonGroup'}
+            className={styles.toggleButtonGroup}
             onClick={this.preventBubbles}
             value={alignment.toArray()}
           >
             <Radio.Button
               value={'LIST'}
-              className={'toggleButton'}
+              className={styles.toggleButton}
               checked={alignment.has('LIST')}
             >
               <Icon type={'ordered-list'} />
             </Radio.Button>
             <Radio.Button
               value={'QUOTE'}
-              className={'toggleButton'}
+              className={styles.toggleButton}
               checked={alignment.has('BLOCKQUOTE')}
             >
               <QuoteIcon />
             </Radio.Button>
             <Radio.Button
               value={'BOLD'}
-              className={'toggleButton'}
+              className={styles.toggleButton}
               checked={alignment.has('BOLD')}
             >
               <Icon type={'bold'} />
             </Radio.Button>
             <Radio.Button
               value={'ITALIC'}
-              className={'toggleButton'}
+              className={styles.toggleButton}
               checked={alignment.has('ITALIC')}
             >
               <Icon type={'italic'} />
